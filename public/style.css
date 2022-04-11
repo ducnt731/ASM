@@ -1,0 +1,55 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    }
+.bar {
+        overflow: auto;
+        background-color: black;
+    }
+.bar a { 
+    float: left;
+    color: wheat;
+    text-align: left;
+    padding: 10px 10px;
+    text-decoration: none;
+    font-size: 25px;
+}
+.bar a:hover {
+    background-color: white;
+    color: black;
+}
+.bar a.active {
+    background-color: lightcoral;
+    color: white;
+}
+h1 {
+    text-align: center;
+    font-size: 70px;
+    color: black;
+}
+
+h2 {
+    color: orange;
+    text-align: center;
+    font-size: 30;
+}
+
+h3 {
+    font-size: 10px;
+}
+
+
+table {
+    border-collapse: separate;
+    width: 60%;
+    color: black;
+    font-size: absolute;
+    text-align: left;
+    }
+th {
+    background-color: wheat;
+    color: black;
+}
+tr:nth-child(even) {
+    background-color: tan;
+}
