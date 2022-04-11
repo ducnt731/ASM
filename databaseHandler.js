@@ -29,24 +29,24 @@ async function checkUserRole(nameI, passI){
 }
 
 async function insertObjectToCollection(collectionName,obj){
-    const dbo = await getDatabase()
+    const dbo = await getDB()
     const result = await dbo.collection(collectionName).insertOne(obj)
 }
 async function getAllDocumentsFromCollection(collectionName) {
-    const dbo = await getDatabase()
+    const dbo = await getDB()
     const results = await dbo.collection(collectionName).find({}).toArray()
     return results
 }
 async function deleteDocumentById(collectionName, id) {
-    const dbo = await getDatabase()
+    const dbo = await getDB()
     await dbo.collection(collectionName).deleteOne({ _id: ObjectId(id) })
 }
 async function updateCollection(collectionName, myquery, newvalues) {
-    const dbo = await getDatabase()
+    const dbo = await getDB()
     await dbo.collection(collectionName).updateOne(myquery, newvalues)
 }
 async function getDocumentById(collectionName, id) {
-    const dbo = await getDatabase()
+    const dbo = await getDB()
     const productToEdit = await dbo.collection(collectionName).findOne({ _id: ObjectId(id) })
     return productToEdit
 }
