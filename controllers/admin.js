@@ -25,7 +25,7 @@ router.post('/register', (req,res)=>{
     }
     //goi ham insert: bang User, new user trong objectToInsert
     insertObject(USER_TABLE_NAME, objectToInsert)
-    res.render('home')
+    res.render('home')//quay ve home
 })
 
 //Kiem tra thong tin login
