@@ -18,10 +18,16 @@ router.post('/register', (req,res)=>{
     const name = req.body.txtName
     const role = req.body.Role
     const pass = req.body.txtPassword
+    const fullname = req.body.txtFullName
+    const address = req.body.txtAddress
+    const phone = req.body.txtPhone
     const objectToInsert = {
         userName: name,
         role: role,
-        password: pass
+        password: pass,
+        fullName: fullname,
+        Address: address,
+        Phone: phone
     }
     //goi ham insert: bang User, new user trong objectToInsert
     insertObject(USER_TABLE_NAME, objectToInsert)
