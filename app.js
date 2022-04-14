@@ -4,7 +4,6 @@ const app = express()
 const session = require('express-session')
 app.use(session({ secret: '124447yd@@$%%#', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
 
-const {insertObject, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById} = require('./databaseHandler')
 
 //su dung HBS: =>res.render('....')
 app.set('view engine', 'hbs')
