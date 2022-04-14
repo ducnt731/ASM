@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>buy</title>
+    <title>My Cart</title>
 </head>
 <body>
-    <h1>Select a product to buy</h1>
+    <h1>My cart</h1>
     <ul>
-        {{#each products}}
-            <li><a href="addCart?id={{id}}">{{name}}</a></li>
+        {{#each cart}}
+            <li>{{masp}}-{{name}}: {{soLuong}}</li>
         {{/each}}
     </ul>
 </body>

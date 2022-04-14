@@ -28,10 +28,6 @@ async function checkUserRole(nameI, passI){
     }
 }
 
-async function insertObjectToCollection(collectionName,obj){
-    const dbo = await getDB()
-    const result = await dbo.collection(collectionName).insertOne(obj)
-}
 async function getAllDocumentsFromCollection(collectionName) {
     const dbo = await getDB()
     const results = await dbo.collection(collectionName).find({}).toArray()
@@ -51,4 +47,4 @@ async function getDocumentById(collectionName, id) {
     return productToEdit
 }
 const USER_TABLE_NAME = "Users"
-module.exports = {insertObject, checkUserRole, USER_TABLE_NAME, insertObjectToCollection, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById}
+module.exports = {insertObject, checkUserRole, USER_TABLE_NAME, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById}

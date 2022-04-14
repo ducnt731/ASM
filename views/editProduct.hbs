@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href ="style.css"/>
+    <title>Edit Product</title>
+</head>
+<body>
+    <h1>ATN Toy Store</h1>
+    <div class = "bar">
+        <a href="/">Menu</a>
+        <a href="/addproduct">Add product</a>
+        <a href="/product">View all products</a>
+    </div>
+    <h2 style="color: orange;">Edit Product</h2>
+    <form action="/edit" method="post">
+        <input type="hidden" name="txtId" value="{{product._id}}">
+        Name: <input type="text" name="txtName" id="txtName" value="{{product.name}}">
+        <br>
+        Price:   <input type="text" name="txtPrice" id="txtPrice" value="{{product.price}}">
+        <Br>
+        Quantity:   <input type="text" name="txtPrice" id="txtPrice" value="{{product.quantity}}">
+        <Br>
+        Picture URL:
+        <input type="text" name="txtPicURL" id="txtPicURL" size="150" value="{{product.picURL}}">
+        <Br>
+        <img src="{{product.picURL}}" width="150" height="100"/>
+        <br>
+        <input type="submit" value="Update">
+        Author : <input type="text" name="txtName" id="txtName" value="{{product.author}}">
+    </form>
+</body>
+</html>
