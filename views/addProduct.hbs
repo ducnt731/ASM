@@ -10,11 +10,12 @@
 <body>
     <h1>FPT Book</h1>
     <div class = "bar">
-        <a href="/">Menu</a>
-        <a href="/product">View all products</a>
+        <a href="/adminHome">Menu</a>
+        <a href="/product">View all books</a>
+        <a href="/">Logout</a> 
     </div>
     <h2>New Product</h2>
-    <form action="/product" method="post">
+    <form action="/addProduct" method="post">
         Name: <input type="text" name="txtName" id="txtName" value="{{oldValues.name}}">
         <span style="color: red;">{{errorName}}</span> 
         <br>
@@ -30,10 +31,10 @@
         <input type="text" name="txtPicURL" id="txtPicURL" size="150" value="{{oldValues.picURL}}">
         <span style="color: red;">{{errorLink}}</span> 
         <br>
-        Author: <input type="text" name="txtName" id="txtName" value="{{oldValues.name}}">
+        Author: <input type="text" name="txtAuthor" id="txtAuthor" value="{{oldValues.name}}">
         <span style="color: red;">{{errorAuthor}}</span> 
         <br>
-        <input type="submit" value="Insert">
+        <input type="submit" value="Add">
     </form>
 </body>
 </html>
