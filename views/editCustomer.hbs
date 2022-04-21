@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+</head>
+
+<body>
+    <hi>Edit Page</hi>
+    <form method="post" action="editCustomer">
+        <br>
+        <input type="hidden" name="txtId" value="{{id}}">
+        Full name: <input type="text" name="txtFullName" id="txtFullName" value = "{{users.fullName}}">
+        <br>
+        Address: <input type="text" name="txtAddress" id="txtAddress" value = "{{users.Address}}">
+        <br>
+        Phone numbers: <input type="text" name="txtPhone" id="txtPhone" value = "{{users.Phone}}">
+        <br>
+        Gmail: <input type="text" name="txtGmail" id="txtGmail" value = "{{users.Gmail}}">
+        <input type="submit" value="Update">
+        <table>
+            <tr>
+                <th>fullName</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Gmail</th>
+            </tr>
+            <tr>
+                <td>{{users.fullName}}</td>
+                <td>{{users.Address}}</td>
+                <td>{{users.Phone}}</td>
+                <td>{{users.Gmail}}</td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+
+</html>

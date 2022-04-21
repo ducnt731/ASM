@@ -1,8 +1,12 @@
 const express = require('express')
 const async = require('hbs/lib/async')
 const router = express.Router()
+<<<<<<< HEAD
 const {insertObject, checkUserRole, USER_TABLE_NAME, FindDocumentsByGmail, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById} = require('../databaseHandler')
 
+=======
+const {insertObject, checkUserRole,USER_TABLE_NAME, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById} = require('../databaseHandler')
+>>>>>>> fdacbb0b4002d0d3e8169f5ed754e945448c69c3
 //neu request la: /admin/register
 router.get('/register',(req,res)=>{
     res.render('register')
@@ -66,7 +70,14 @@ router.post('/register',(req,res)=>{
     insertObject(USER_TABLE_NAME,objectToInsert)
     res.render('home')
 })
+/////////////////////////////////////
+router.get('/viewprofile', async (req, res) => {
+    const collectionName = "Users"
+    const results = await getAllDocumentsFromCollection(collectionName)
+    res.render('viewprofile', { users: results })
+})
 
+<<<<<<< HEAD
 router.post('/edit',async (req,res)=>{
     const nameInput = req.body.txtName
     const priceInput = req.body.txtPrice
@@ -77,10 +88,40 @@ router.post('/edit',async (req,res)=>{
     const myquery = { _id: ObjectId(id) }
     const newvalues = { $set: {name: nameInput, price: priceInput, qunatity:quantityInput,picURL:picURLInput,author: authorInput} }
     const collectionName = "Products"
-    await updateCollection(collectionName, myquery, newvalues)
-    res.redirect('/product')
+=======
+router.get('/delete', async (req, res) => {
+    const id = req.query.id
+    //ham xoa user dua tren id
+    const collectionName = "Users"
+    await deleteDocumentById(collectionName, id)
+    res.redirect('viewprofile')// return viewprofile page
 })
 
+router.post('/editCustomer',async (req,res) =>{
+    const fullnameInput = req.body.txtFullName
+    const addressInput = req.body.txtAddress
+    const phoneInput = req.body.txtPhone
+    const gmailInput = req.body.txtGmail
+    //ham update
+    const id = req.body.txtId
+    const myquery = { _id: ObjectId(id) }
+
+    const newvalues = {$set: {
+            fullName: fullnameInput,
+            Address: addressInput,
+            Phone: phoneInput,
+            Gmail: gmailInput
+        }
+    }
+    console.log(newvalues)
+    console.log(id)
+    const collectionName = "Users"
+>>>>>>> fdacbb0b4002d0d3e8169f5ed754e945448c69c3
+    await updateCollection(collectionName, myquery, newvalues)
+    res.redirect('viewprofile')
+})
+
+<<<<<<< HEAD
 router.get('/edit',async (req,res)=>{
     const id = req.query.id
     const collectionName = "Products"
@@ -158,5 +199,16 @@ router.post('/addProduct',async (req,res)=>{
     }
     
 })
+=======
+router.get('/editCustomer', async (req, res) => {
+    const id = req.query.id
+    //lay information old of user before edit
+    const productToEdit = await getDocumentById("Users", id)
+    //hien thi ra de sua
+    res.render("editCustomer", { users: productToEdit,id:id })
+})
+
+///////////////////////////
+>>>>>>> fdacbb0b4002d0d3e8169f5ed754e945448c69c3
 
 module.exports = router;
