@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View your profile</title>
+</head>
+
+<body>
+    <h1>View profile</h1>
+        {{!-- {{#each users}}
+        <lu>
+            <li>{{fullName}}|{{Address}}|{{Phone}}</li>
+        </lu> --}}
+        <table>
+        <thread>
+            <tr>
+                <th>fullName</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Gmail</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            {{#each users}}
+                <tr>
+                    <td>{{fullName}}</td>
+                    <td>{{Address}}</td>
+                    <td>{{Phone}}</td>
+                    <td>{{Gmail}}</td>
+                    <td><a href="editCustomer?id={{_id}}">edit</a></td>
+                    <td><a onclick="return confirm('are you want to delete')" href="delete?id={{_id}}">delete</a></td>
+                </tr>
+            {{/each}}
+            
+        </thread>
+        </table>
+</body>
+
+</html>
