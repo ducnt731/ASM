@@ -10,12 +10,13 @@
 <body>
     <h1>ATN Toy Store</h1>
     <div class = "bar">
-        <a href="/">Menu</a>
-        <a href="/addproduct">Add product</a>
-        <a href="/product">View all products</a>
+        <a href="/adminHome">Menu</a>
+        <a href="/addproduct">Add book</a>
+        <a href="/product">View all books</a>
+        <a href="/">Logout</a> 
     </div>
     <h2 style="color: orange;">Edit Product</h2>
-    <form action="/edit" method="post">
+    <form action="/editProduct" method="post">
         <input type="hidden" name="txtId" value="{{product._id}}">
         Name: <input type="text" name="txtName" id="txtName" value="{{product.name}}">
         <br>
@@ -28,8 +29,9 @@
         <Br>
         <img src="{{product.picURL}}" width="150" height="100"/>
         <br>
+        Author : <input type="text" name="txtAuthor" id="txtAuthor" value="{{product.author}}">
+        <br>
         <input type="submit" value="Update">
-        Author : <input type="text" name="txtName" id="txtName" value="{{product.author}}">
     </form>
 </body>
 </html>
