@@ -45,7 +45,7 @@ router.post('/register',(req,res)=>{
     insertObject(USER_TABLE_NAME,objectToInsert)
     res.render('home')
 })
-
+/////////////////////////////////////
 router.get('/viewprofile', async (req, res) => {
     const collectionName = "Users"
     const results = await getAllDocumentsFromCollection(collectionName)
@@ -91,6 +91,6 @@ router.get('/editCustomer', async (req, res) => {
     res.render("editCustomer", { users: productToEdit,id:id })
 })
 
-
+///////////////////////////
 
 module.exports = router;
