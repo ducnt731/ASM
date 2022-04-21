@@ -15,15 +15,14 @@ async function insertObject(collectionName,objectToInsert){
     console.log("Gia tri id moi duoc insert la: ", newObject.insertedId.toHexString());
 }
 
-async function checkUserRole(nameI, passI){
-    const dbo = await getDB();
-    const user = await dbo.collection(USER_TABLE_NAME).findOne({userName:nameI, password:passI});
-    //Neu ko trung user name va password
-    if (user==null) {
+async function checkUserRole(gmailI,passI){
+    const dbo = await getDB()
+    const user= await dbo.collection(USER_TABLE_NAME).findOne({gmail: gmailI, password: passI});
+    if (user == null) {
         return "-1"
+    }else if(user.role == "Customer"){
+        return "Customer";
     }else{
-        console.log(user)
-        //Tra lai: role cua user, admin, staff
         return user.role;
     }
 }
@@ -33,18 +32,28 @@ async function getAllDocumentsFromCollection(collectionName) {
     const results = await dbo.collection(collectionName).find({}).toArray()
     return results
 }
+
 async function deleteDocumentById(collectionName, id) {
     const dbo = await getDB()
     await dbo.collection(collectionName).deleteOne({ _id: ObjectId(id) })
 }
+
 async function updateCollection(collectionName, myquery, newvalues) {
     const dbo = await getDB()
     await dbo.collection(collectionName).updateOne(myquery, newvalues)
 }
+
 async function getDocumentById(collectionName, id) {
     const dbo = await getDB()
     const productToEdit = await dbo.collection(collectionName).findOne({ _id: ObjectId(id) })
     return productToEdit
 }
+
+async function FindDocumentsByGmail(value) {
+    const dbo = await getDB()
+    const results = await dbo.collection(USER_TABLE_NAME).findOne({gmail: value})
+    return results
+}
+
 const USER_TABLE_NAME = "Users"
-module.exports = {insertObject, checkUserRole, USER_TABLE_NAME, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById}
+module.exports = {insertObject, checkUserRole, USER_TABLE_NAME, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById, FindDocumentsByGmail}

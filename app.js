@@ -14,10 +14,6 @@ app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
-app.get('/',(req,res)=>{
-    res.render('home',{userInfo:req.session.User})
-    //res.render('home')
-})
 app.get('/adminHome',(req,res)=>{
     res.render('adminHome',{userInfo:req.session.User})
 })
@@ -126,6 +122,11 @@ app.post('/addProduct',async (req,res)=>{
     
 })
 
+
+
+app.get('/', (req,res)=>{
+    res.render('home')
+})
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT)
