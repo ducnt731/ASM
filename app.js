@@ -28,7 +28,6 @@ app.use('/admin', adminController)
 
 const customerController = require('./controllers/customer')
 app.use('/customer', customerController)
-
 app.post('/editProduct',async (req,res)=>{
     const nameInput = req.body.txtName
     const priceInput = req.body.txtPrice
@@ -125,6 +124,8 @@ app.post('/addProduct',async (req,res)=>{
     }
     
 })
+
+
 
 
 const PORT = process.env.PORT || 5000
