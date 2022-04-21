@@ -46,6 +46,51 @@ router.post('/register',(req,res)=>{
     res.render('home')
 })
 
+router.get('/viewprofile', async (req, res) => {
+    const collectionName = "Users"
+    const results = await getAllDocumentsFromCollection(collectionName)
+    res.render('viewprofile', { users: results })
+})
+
+router.get('/delete', async (req, res) => {
+    const id = req.query.id
+    //ham xoa user dua tren id
+    const collectionName = "Users"
+    await deleteDocumentById(collectionName, id)
+    res.redirect('viewprofile')// return viewprofile page
+})
+
+router.post('/editCustomer',async (req,res) =>{
+    const fullnameInput = req.body.txtFullName
+    const addressInput = req.body.txtAddress
+    const phoneInput = req.body.txtPhone
+    const gmailInput = req.body.txtGmail
+    //ham update
+    const id = req.body.txtId
+    const myquery = { _id: ObjectId(id) }
+
+    const newvalues = {$set: {
+            fullName: fullnameInput,
+            Address: addressInput,
+            Phone: phoneInput,
+            Gmail: gmailInput
+        }
+    }
+    console.log(newvalues)
+    console.log(id)
+    const collectionName = "Users"
+    await updateCollection(collectionName, myquery, newvalues)
+    res.redirect('viewprofile')
+})
+
+router.get('/editCustomer', async (req, res) => {
+    const id = req.query.id
+    //lay information old of user before edit
+    const productToEdit = await getDocumentById("Users", id)
+    //hien thi ra de sua
+    res.render("editCustomer", { users: productToEdit,id:id })
+})
+
 
 
 module.exports = router;
