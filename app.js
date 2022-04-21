@@ -21,7 +21,6 @@ const adminController = require('./controllers/admin')
 //tat ca cac dia chi co chua admin: localhost:5000/admin/... => goi controller admin
 app.use('/admin', adminController)
 
-
 const customerController = require('./controllers/customer')
 app.use('/customer', customerController)
 app.post('/editProduct',async (req,res)=>{
@@ -121,14 +120,9 @@ app.post('/addProduct',async (req,res)=>{
     
 })
 
-
-
-<<<<<<< HEAD
 app.get('/', (req,res)=>{
     res.render('home')
 })
-=======
->>>>>>> fdacbb0b4002d0d3e8169f5ed754e945448c69c3
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT)
