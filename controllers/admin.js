@@ -53,9 +53,7 @@ app.post('/edit',async (req,res)=>{
     const picURLInput = req.body.txtPicURL
     const quantityInput = req.body.txtQuantity
     const authorInput = req.body.txtAuthor
-
     const id = req.body.txtId
-    
     const myquery = { _id: ObjectId(id) }
     const newvalues = { $set: {name: nameInput, price: priceInput,qunatity:quantityInput,picURL:picURLInput,author: authorInput} }
     const collectionName = "Products"
