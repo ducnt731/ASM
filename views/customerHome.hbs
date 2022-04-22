@@ -64,20 +64,20 @@
                                 <div class="card" style="width: 15rem; align-items: center; margin: 10px; background-color: rgba(236, 238, 93, 0.288)">
                                     <img src="{{picURL}}" class="card-img-top" style="width: 10rem; height: 10rem;" alt="..."> 
                                     <div class="card-body h-100">
-                                        <a href="/inforProduct?id={{_id}}" style="color: rgb(29, 27, 27); font-size: 1.5rem;"><p class="card-text">{{name}}</p></a>
+                                        <a href="/product?id={{_id}}" style="color: rgb(29, 27, 27); font-size: 1.5rem;"><p class="card-text">{{name}}</p></a>
                                     </div>
                                     {{!-- <div class="card-body">
                                         <a href="Cart"><p class="card-text">Mua Ngay</p></a>
                                     </div> --}}
                                     <form action="/buy" method="post">
                                         <input type="hidden" name="txtId" value="{{_id}}">
-                                        <button type="submit" class="btn btn-outline-success">Thêm Vào Giỏ Hàng</button>                                      
+                                        <button type="submit" class="btn btn-outline-success">Add to cart</button>                                      
                                     </form>
                                     
                                 </div>
                             {{/each}}
                                 <div class="card-body" style="text-align: center;">
-                                        <a href="allProduct" style="color: red; font-size: 1.5rem;"><p class="card-text">Xem Thêm Sản Phẩm</p></a>
+                                        <a href="/views/product" style="color: red; font-size: 1.5rem;"><p class="card-text">Xem Thêm Sản Phẩm</p></a>
                                 </div>
                                 </div>
                         </div>

@@ -15,16 +15,36 @@ async function insertObject(collectionName,objectToInsert){
     console.log("Gia tri id moi duoc insert la: ", newObject.insertedId.toHexString());
 }
 
-async function checkUserRole(gmailI,passI){
-    const dbo = await getDB()
-    const user= await dbo.collection(USER_TABLE_NAME).findOne({gmail: gmailI, password: passI});
-    if (user == null) {
-        return "-1"
-    }else if(user.role == "Customer"){
-        return "Customer";
-    }else{
-        return user.role;
+async function checkUserLogin(nameI) {
+    const dbo = await getDB();
+    const results = await dbo.collection("Users").findOne({userName: nameI})
+    if (results) {
+    return results;
+    } else {
+    return -1;
     }
+}
+
+async function findOne(collectionName, findObject) {
+    const dbo = await getDB();
+    const result = await dbo.collection(collectionName).findOne(findObject);
+    return result;
+}
+
+async function checkUserRole(nameI) {
+    const dbo = await getDB();
+    const user = await dbo.collection("Users").findOne({userName: nameI})
+    if (user == null) {
+    return -1;
+    } else {
+    return user.role;
+    }
+}
+
+async function getUser(name) {
+    const dbo = await getDB();
+    const result = await dbo.collection("Users").findOne({ userName: name })
+    return result;
 }
 
 async function getAllDocumentsFromCollection(collectionName) {
@@ -49,11 +69,7 @@ async function getDocumentById(collectionName, id) {
     return productToEdit
 }
 
-async function FindDocumentsByGmail(value) {
-    const dbo = await getDB()
-    const results = await dbo.collection(USER_TABLE_NAME).findOne({gmail: value})
-    return results
-}
+
 
 const USER_TABLE_NAME = "Users"
-module.exports = {insertObject, checkUserRole, USER_TABLE_NAME, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById, FindDocumentsByGmail}
+module.exports = {insertObject, findOne,checkUserRole, checkUserLogin, getUser,USER_TABLE_NAME, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById}

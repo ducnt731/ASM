@@ -1,8 +1,8 @@
 const express = require('express')
-
 const app = express()
 const {ObjectId} = require('mongodb')
-
+const dbHandler = require("./databaseHandler")
+const bcrypt = require("bcrypt")
 const session = require('express-session')
 app.use(session({ secret: '124447yd@@$%%#', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
 
@@ -22,6 +22,7 @@ const adminController = require('./controllers/admin')
 app.use('/admin', adminController)
 
 const customerController = require('./controllers/customer')
+const res = require('express/lib/response')
 app.use('/customer', customerController)
 app.post('/editProduct',async (req,res)=>{
     const nameInput = req.body.txtName
@@ -119,6 +120,49 @@ app.post('/addProduct',async (req,res)=>{
     }
     
 })
+
+app.get("/login", (req, res)=>{
+    res.render('login')
+})
+
+app.post("/login", async(req, res) => {
+    const name = req.body.txtName;
+    const pass = req.body.txtPass;
+    const user = await dbHandler.checkUserLogin(name);
+    if (user == -1) {
+    res.render("login", { errorMsg: "Not found UserName!!" });
+    } else {
+    const validPass = await bcrypt.compare(pass, user.password);
+    if (validPass) {
+        const role = await dbHandler.checkUserRole(name);
+        if (role == -1) {
+        res.render("login", { errorMsg: "Login failed!" });
+        } else {
+        if (req.body.Role == role) {
+            const customer = await dbHandler.getUser(name, user.gmail)
+            req.session.user = {
+            userName: name,
+            role: role,
+            Gmail: customer.gmail,
+            };
+            console.log("Login with: ");
+            console.log(req.session.user);
+            req.session["cart"] = null;
+            if (role == "Customer") {
+            res.redirect("/");
+            } else {
+            res.redirect("/adminHome");
+            }
+        } else {
+            res.render("login", { errorMsg: "not auth!!" });
+        }
+        }
+    } else {
+        res.render("login", { errorMsg: "Incorrect password!!" });
+    }
+    }
+})
+
 
 app.get('/', (req,res)=>{
     res.render('home')

@@ -9,10 +9,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.3",
+    "express-handlebars": "^6.0.5",
     "express-session": "^1.17.2",
     "hbs": "^4.2.0",
-    "init": "^0.1.2",
-    "mongodb": "^4.4.1"
+    "mongodb": "^4.4.1",
+    "mongoose": "^6.3.1"
   }
 }
