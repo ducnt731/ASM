@@ -69,7 +69,17 @@ async function getDocumentById(collectionName, id) {
     return productToEdit
 }
 
+async function FindAllDocumentsByName(value) {
+    const dbo = await getDB()  
+    const results = await dbo.collection("Products").find({name: new RegExp(value)}).limit(10).toArray() 
+    return results
+}
 
+async function FindDocumentsByGmail(value) {
+    const dbo = await getDB()
+    const results = await dbo.collection("Users").findOne({gmail: value})
+    return results
+}
 
 const USER_TABLE_NAME = "Users"
-module.exports = {insertObject, findOne,checkUserRole, checkUserLogin, getUser,USER_TABLE_NAME, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById}
+module.exports = {insertObject, FindDocumentsByGmail, FindAllDocumentsByName, findOne,checkUserRole, checkUserLogin, getUser,USER_TABLE_NAME, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById}

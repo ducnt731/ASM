@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt")
 const session = require('express-session')
 app.use(session({ secret: '124447yd@@$%%#', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
 
-const {insertObject, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById} = require('./databaseHandler')
+const {insertObject,getUser, FindAllDocumentsByName, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById} = require('./databaseHandler')
 
 //su dung HBS: =>res.render('....')
 app.set('view engine', 'hbs')
@@ -125,25 +125,30 @@ app.get("/login", (req, res)=>{
     res.render('login')
 })
 
+app.get("/logout", (req, res) => {
+    req.session.user = null
+    res.redirect("/")
+})
+
 app.post("/login", async(req, res) => {
-    const name = req.body.txtName;
-    const pass = req.body.txtPass;
-    const user = await dbHandler.checkUserLogin(name);
+    const userName = req.body.txtName;
+    const pass = req.body.txtPassword;
+    const user = await dbHandler.checkUserLogin(userName);
     if (user == -1) {
     res.render("login", { errorMsg: "Not found UserName!!" });
     } else {
     const validPass = await bcrypt.compare(pass, user.password);
     if (validPass) {
-        const role = await dbHandler.checkUserRole(name);
+        const role = await dbHandler.checkUserRole(userName);
         if (role == -1) {
         res.render("login", { errorMsg: "Login failed!" });
         } else {
         if (req.body.Role == role) {
-            const customer = await dbHandler.getUser(name, user.gmail)
+            const customer = await dbHandler.getUser(userName, user.mail)
             req.session.user = {
-            userName: name,
+            userName: userName,
             role: role,
-            Gmail: customer.gmail,
+            gmail: customer.mail,
             };
             console.log("Login with: ");
             console.log(req.session.user);
@@ -154,7 +159,7 @@ app.post("/login", async(req, res) => {
             res.redirect("/adminHome");
             }
         } else {
-            res.render("login", { errorMsg: "not auth!!" });
+            res.render("login", { errorMsg: "Not auth!!" });
         }
         }
     } else {
@@ -163,6 +168,70 @@ app.post("/login", async(req, res) => {
     }
 })
 
+app.get('/allProducts', async (req,res)=>{
+    customer = req.session["Customer"]
+    const searchInputH = req.query.txtSearchHome
+    const collectionName = "Products"
+    const results = await getAllDocumentsFromCollection(collectionName)
+    const resultSearch = await FindAllDocumentsByName(searchInputH)
+    //2.hien thu du lieu qua HBS
+    if(searchInputH == null)
+    {         
+        res.render('home', {products: results, customerI: customer})       
+    }else{   
+        if(resultSearch.length != 0)
+        {                 
+            res.render('home', {products : resultSearch, customerI: customer})
+        }else {
+            const messageSH = " Khong tim thay"
+            res.render('allProducts', {products: results, messSH : messageSH, customerI: customer})
+        }
+    }   
+    
+})
+
+app.get('/register', (req, res)=>{
+    res.render('register')
+})
+
+app.post("/register", async (req, res) => {
+    const userName = req.body.txtName;
+    const mail = req.body.txtGmail;
+    const phone = req.body.txtPhone;
+    const pass = req.body.txtPassword;
+    const rePass = req.body.txtRePass;
+    const role = req.body.Role;
+    const fullName = req.body.txtFullName;
+    const address = req.body.txtAddress
+    const hashPass = await bcrypt.hash(pass, 10);
+    const existedUser = await dbHandler.checkUserLogin(userName);
+    if (existedUser == -1) {
+    const validPass = await bcrypt.compare(rePass, hashPass);
+        if (validPass) {
+        const newUser = {
+        userName: userName,
+        gmail: mail,
+        Name: fullName,
+        phone: phone,
+        role: role,
+        Address: address,
+        password: hashPass,
+        };
+        await dbHandler.insertObject("Users", newUser);
+        res.render("login");
+    } else {
+        res.render("register", { errorMsg: "Password is not match" });
+    }
+    } else {
+    res.render("register", { errorMsg: "Username already used" });
+    }
+})
+
+app.get('/',async (req,res)=>{
+    const collectionName = "Products"
+    const results = await getAllDocumentsFromCollection(collectionName)
+    res.render('home',{products:results})
+})
 
 app.get('/', (req,res)=>{
     res.render('home')

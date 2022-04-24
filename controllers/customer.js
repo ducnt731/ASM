@@ -155,13 +155,13 @@ router.get("/payCart", async (req, res) => {
   res.render("CheckOut", { books: orderDB, tax: tax, Total: Total });
 });
 
-router.get("/Pushase", async (req, res) => {
+router.get("/Purchase", async (req, res) => {
   const orderDB = await dbHandler.searchOderByUser(
     "Customer Order",
     req.session.user.name
   );
   console.log(orderDB, req.session.user);
-  res.render("Pushase", {
+  res.render("Purchase", {
     user: req.session.user,
     orderDB: orderDB,
   });
@@ -201,7 +201,7 @@ router.post("/updateProfile", async (req, res) => {
       role: user.role,
       password: user.password,
     },
-  };
+  }
   await dbHandler.updateDocument(user._id, updateValue, "Users");
   res.redirect("/shoppingCart/viewProfile");
 });
@@ -222,7 +222,7 @@ router.post("/UpdateSt", async (req, res) => {
   };
   console.log(newSt);
   await dbHandler.updateDocument(id, newSt, " Customer Order");
-  res.redirect("/shoppingCart/Pushase");
+  res.redirect("/shoppingCart/Purchase");
 });
 
 module.exports = router;

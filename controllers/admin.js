@@ -2,139 +2,43 @@ const express = require('express')
 const async = require('hbs/lib/async')
 const bcrypt = require('bcrypt')
 const router = express.Router()
-const {insertObject,USER_TABLE_NAME,  getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById} = require('../databaseHandler')
+const {insertObject,USER_TABLE_NAME, FindDocumentsByGmail, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById} = require('../databaseHandler')
 
-// router.get('/login', async (req,res)=>{
-//     res.render('login')
-// }) 
-
-// router.post('/login',async (req,res)=>{
-//     const gmailInput = req.body.txtLName
-//     const passInput = req.body.txtLPass
-//     const role = await checkUserRole(gmailInput, passInput)
-//     console.log(role)
-//     if (role == -1) {
-//         res.redirect('/admin/login')
-//     } else if (role == "Customer"){
-//         const results = await FindDocumentsByGmail(gmailInput)
-//         req.session["Customer"] = {
-//             id: results._id,
-//             name: results.name,
-//             gmail: gmailInput,
-//             role: role
-//         }
-//         res.redirect('customerHome')
-//     }
-//     res.render('customerHome')
+// router.get('/register',(req,res)=>{
+//     res.render('register')
 // })
-
-// router.get('/loginAdmin', async (req,res)=>{
-//     res.render('loginAdmin')
-// }) 
-
-// router.post('/loginAdmin', async (req,res)=>{
-//     const gmailInputA = req.body.txtLEmailA
-//     const passInputA = req.body.txtLPassA
-//     const role = req.body.Role
-//     console.log(role)
-//     if (role == -1) {
-//         res.redirect('/admin/loginAdmin')
-//     } else if (role == "Admin"){
-//         const results = await FindDocumentsByGmail(gmailInputA)
-//         req.session["Admin"] = {
-//             name: results.name,
-//             email: gmailInputA,
-//             role: role
-//         }
-//         res.redirect('/adminHome')
-//     }
-//     res.render('adminHome')
-// }) 
-
-// router.use((req, res, next) => {
-//     const { user } = req.session; //same as: user = req.session.user
-//     if (user) { //if have an account
-//         if (user.role == "Admin") { //if role = admin
-//             next("router"); //next to the same URL
-//         } else { res.sendStatus(404); }
-//     } else { //don't have an account
-//         res.redirect('/login');
-//     }
-// })
-
-// router.post("/login", async(req, res) => {
-//     const name = req.body.txtName;
+// router.post("/register", async (req, res) => {
+//     const userName = req.body.txtUser;
+//     const mail = req.body.txtMail;
+//     const phone = req.body.txtPhone;
 //     const pass = req.body.txtPass;
-//     const user = await dbHandler.checkUserLogin(name);
-//     if (user == -1) {
-//     res.render("login", { errorMsg: "Not found UserName!!" });
+//     const rePass = req.body.txtRePass;
+//     const role = req.body.Role;
+//     const fullName = req.body.txtName;
+//     const address = req.body.txtAddress
+//     const hashPass = await bcrypt.hash(pass, 10);
+//     const existedUser = await dbHandler.checkUserLogin(userName);
+//     if (existedUser == -1) {
+//     const validPass = await bcrypt.compare(rePass, hashPass);
+//         if (validPass) {
+//         const newUser = {
+//         userName: userName,
+//         gmail: mail,
+//         Name: fullName,
+//         phone: phone,
+//         role: role,
+//         Address: address,
+//         password: hashPass,
+//         };
+//         await dbHandler.insertObject("Users", newUser);
+//         res.render("register");
 //     } else {
-//     const validPass = await bcrypt.compare(pass, user.password);
-//     if (validPass) {
-//         const role = await dbHandler.checkUserRole(name);
-//         if (role == -1) {
-//         res.render("login", { errorMsg: "Login failed!" });
-//         } else {
-//         if (req.body.Role == role) {
-//             const customer = await dbHandler.getUser(name, user.email)
-//             req.session.user = {
-//             name: name,
-//             role: role,
-//             email: customer.email,
-//             };
-//             console.log("Loged in with: ");
-//             console.log(req.session.user);
-//             req.session["cart"] = null;
-//             if (role == "Customer") {
-//             res.redirect("/");
-//             } else {
-//             res.redirect("/admin");
-//             }
-//         } else {
-//             res.render("login", { errorMsg: "not auth!!" });
-//         }
-//         }
-//     } else {
-//         res.render("login", { errorMsg: "Incorrect password!!" });
+//         res.render("register", { errorMsg: "Password is not match" });
 //     }
+//     } else {
+//     res.render("register", { errorMsg: "Username already used" });
 //     }
 // })
-
-router.get('/register',(req,res)=>{
-    res.render('register')
-})
-
-router.post('/register', async(req,res)=>{
-    const name = req.body.txtName
-    const role = req.body.Role
-    const pass = req.body.txtPassword
-    const fullName = req.body.txtFullName
-    const address = req.body.txtAddress
-    const phone = req.body.txtPhone
-    const gmail = req.body.txtGmail
-    const hashPass = await bcrypt.hash(pass, 10)
-    const existedUser = await dbHandler.checkUserLogin(name)
-    if (existedUser == -1) {
-        const validPass = await bcrypt.compare(hashPass);
-        if (validPass) {
-        const newUser = {
-            userName: name,
-            Gmail: gmail,
-            Name: fullName,
-            Address: address,
-            Phone: phone,
-            role: role,
-            password: hashPass
-        };
-        await dbHandler.insertObject("Users", newUser);
-        res.render("register");
-        } else {
-        res.render("register", { errorMsg: "Password is not match" });
-        }
-    } else {
-        res.render("register", { errorMsg: "Username already used" });
-    }
-})
 
 router.get('/viewprofile', async (req, res) => {
     const collectionName = "Users"

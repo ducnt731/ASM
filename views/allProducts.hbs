@@ -34,11 +34,11 @@
                     {{!-- <li class="nav-item">
                         <a class="nav-link" href="#">Link</a>
                     </li> --}}
-                    {{#if user}}
+                    {{#if userInfo}}
                     <a style="font-size:smaller;" href="/myCart" class="btn btn-info btn-lg">Shopping cart </a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Hi, {{user.userName}}
+                            Hi, {{userInfo.name}}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="#">Edit profile</a></li>
@@ -52,7 +52,6 @@
                         <a class="nav-link" href="/login" style="color: black">Login </a>   
                         <a class="nav-link" href="/register" style="color: black">Register</a>                     
                     </form>
-                    {{/if}}
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit" style="color: rgb(5, 5, 5);">Search</button>
@@ -61,15 +60,19 @@
         </div>
     </nav>
     <h1 style="color: rgba(93, 93, 254);">Welcome to our Book store!</h1>
+
     <span style="color: red;">{{messSH}}</span>
     <div></div>
     <div class="container">
         <div class="Product">
+            <div class="card-body" style="text-align: center;">
+                <p class="card-text" style="color: red; font-size: 1.5rem;">Feature Products</p>
+            </div>
             <div class="mt-4">
                 <div class="row">
                     {{#each products}}
                     <div class="card mb-4 box-shadow"
-                        style="width: 15rem; align-items: center; margin: 10px; background-color:cadetblue">
+                        style="width: 15rem; align-items: center; margin: 10px; background-color: rgb(162, 157, 170)">
                         <img src="{{picURL}}" class="card-img-top" style="height: 225px; width: 100%; display: block;"
                             alt="...">
                         <div class="card-body h-100">
@@ -84,7 +87,7 @@
                         </div> --}}
                         <form action="/buy" method="post">
                             <input type="hidden" name="txtId" value="{{_id}}">
-                            <button type="submit" class="btn btn-outline-success" style="color: aliceblue;">Add to Cart</button>
+                            <button type="submit" class="btn btn-outline-success">Add to Cart</button>
                         </form>
 
                     </div>
@@ -199,5 +202,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
-</body>
+    </body>
 </html>
