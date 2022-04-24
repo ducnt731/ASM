@@ -27,7 +27,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
-
                     {{!-- <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/login">Login</a>
                     </li> --}}
@@ -53,6 +52,31 @@
                         <a class="nav-link" href="/register" style="color: black">Register</a>                     
                     </form>
                     {{/if}}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/login">Login</a>
+                    </li>
+                    {{!-- <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li> --}}
+                    {{!-- <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown
+                        </a> --}}
+                        {{!-- <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li> --}}
+                    {{!-- <li class="nav-item">
+                        <a class="nav-link disabled">Disabled</a>
+                    </li> --}}
+                    {{!--
+                </ul> --}}
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit" style="color: rgb(5, 5, 5);">Search</button>
@@ -65,11 +89,14 @@
     <div></div>
     <div class="container">
         <div class="Product">
+            {{!-- <div class="card-body" style="text-align: center;">
+                <p class="card-text" style="color: red; font-size: 1.5rem;">Sản Phẩm Nổi Bật</p>
+            </div> --}}
             <div class="mt-4">
                 <div class="row">
                     {{#each products}}
                     <div class="card mb-4 box-shadow"
-                        style="width: 15rem; align-items: center; margin: 10px; background-color:cadetblue">
+                        style="width: 15rem; align-items: center; margin: 10px; background-color: rgb(162, 157, 170)">
                         <img src="{{picURL}}" class="card-img-top" style="height: 225px; width: 100%; display: block;"
                             alt="...">
                         <div class="card-body h-100">
@@ -84,17 +111,17 @@
                         </div> --}}
                         <form action="/buy" method="post">
                             <input type="hidden" name="txtId" value="{{_id}}">
-                            <button type="submit" class="btn btn-outline-success" style="color: aliceblue;">Add to Cart</button>
+                            <button type="submit" class="btn btn-outline-success">Add to Cart</button>
                         </form>
 
                     </div>
                     {{/each}}
                     {{!-- <div class="card-body" style="text-align: center;">
-                        <a href="allProducts" style="color: red; font-size: 1.5rem;">
-                            <p class="card-text">Xem Thêm Sản Phẩm</p> --}}
+                        <a href="allProduct" style="color: red; font-size: 1.5rem;">
+                            <p class="card-text">Xem Thêm Sản Phẩm</p>
                         </a>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -200,4 +227,5 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
 </body>
+
 </html>
