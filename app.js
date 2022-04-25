@@ -216,9 +216,9 @@ app.post("/register", async (req, res) => {
         if (validPass) {
         const newUser = {
         userName: userName,
-        gmail: mail,
-        Name: fullName,
-        phone: phone,
+        Gmail: mail,
+        fullName: fullName,
+        Phone: phone,
         role: role,
         Address: address,
         password: hashPass,

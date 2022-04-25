@@ -1,8 +1,9 @@
 const express = require('express')
 const async = require('hbs/lib/async')
 const bcrypt = require('bcrypt')
+const { ObjectId } = require('mongodb')
 const router = express.Router()
-const {insertObject,USER_TABLE_NAME, FindDocumentsByGmail, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById} = require('../databaseHandler')
+const {insertObject,USER_TABLE_NAME, FindDocumentsByGmail, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById,getCustomer} = require('../databaseHandler')
 
 // router.get('/register',(req,res)=>{
 //     res.render('register')
@@ -42,7 +43,7 @@ const {insertObject,USER_TABLE_NAME, FindDocumentsByGmail, getAllDocumentsFromCo
 
 router.get('/viewprofile', async (req, res) => {
     const collectionName = "Users"
-    const results = await getAllDocumentsFromCollection(collectionName)
+    const results = await getCustomer(collectionName)
     res.render('viewprofile', { users: results })
 })
 
