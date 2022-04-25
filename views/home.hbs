@@ -27,17 +27,11 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
-                    {{!-- <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/login">Login</a>
-                    </li> --}}
-                    {{!-- <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li> --}}
-                    {{#if user}}
+                    {{#if users}}
                     <a style="font-size:smaller;" href="/myCart" class="btn btn-info btn-lg">Shopping cart </a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Hi, {{user.userName}}
+                            Hi, {{users.userName}}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="#">Edit profile</a></li>
@@ -48,35 +42,11 @@
                     </li>
                     {{else}}
                     <form class="d-flex" >
-                        <a class="nav-link" href="/login" style="color: black">Login </a>   
-                        <a class="nav-link" href="/register" style="color: black">Register</a>                     
+                        <a class="nav-link" href="/login">Login </a>   
+                        <a class="nav-link" href="/register">Register</a>                     
                     </form>
-                    {{/if}}
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/login">Login</a>
                     </li>
-                    {{!-- <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li> --}}
-                    {{!-- <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
-                        </a> --}}
-                        {{!-- <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li> --}}
-                    {{!-- <li class="nav-item">
-                        <a class="nav-link disabled">Disabled</a>
-                    </li> --}}
-                    {{!--
-                </ul> --}}
+                    {{/if}}
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit" style="color: rgb(5, 5, 5);">Search</button>
@@ -104,11 +74,6 @@
                                 <p class="card-text">{{name}}</p>
                             </a>
                         </div>
-                        {{!-- <div class="card-body">
-                            <a href="Cart">
-                                <p class="card-text">Mua Ngay</p>
-                            </a>
-                        </div> --}}
                         <form action="/buy" method="post">
                             <input type="hidden" name="txtId" value="{{_id}}">
                             <button type="submit" class="btn btn-outline-success">Add to Cart</button>
@@ -116,12 +81,6 @@
 
                     </div>
                     {{/each}}
-                    {{!-- <div class="card-body" style="text-align: center;">
-                        <a href="allProduct" style="color: red; font-size: 1.5rem;">
-                            <p class="card-text">Xem Thêm Sản Phẩm</p>
-                        </a>
-                    </div>
-                </div> --}}
             </div>
         </div>
     </div>

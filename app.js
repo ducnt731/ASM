@@ -174,27 +174,29 @@ app.post("/login", async(req, res) => {
     }
 })
 
-app.get('/allProducts', async (req,res)=>{
-    customer = req.session["Customer"]
-    const searchInputH = req.query.txtSearchHome
-    const collectionName = "Products"
-    const results = await getAllDocumentsFromCollection(collectionName)
-    const resultSearch = await FindAllDocumentsByName(searchInputH)
-    //2.hien thu du lieu qua HBS
-    if(searchInputH == null)
-    {         
-        res.render('home', {products: results, customerI: customer})       
-    }else{   
-        if(resultSearch.length != 0)
-        {                 
-            res.render('home', {products : resultSearch, customerI: customer})
-        }else {
-            const messageSH = " Khong tim thay"
-            res.render('allProducts', {products: results, messSH : messageSH, customerI: customer})
-        }
-    }   
+
+
+// app.get('/allProducts', async (req,res)=>{
+//     customer = req.session["Customer"]
+//     const searchInputH = req.query.txtSearchHome
+//     const collectionName = "Products"
+//     const results = await getAllDocumentsFromCollection(collectionName)
+//     const resultSearch = await FindAllDocumentsByName(searchInputH)
+//     //2.hien thu du lieu qua HBS
+//     if(searchInputH == null)
+//     {         
+//         res.render('home', {products: results, customerI: customer})       
+//     }else{   
+//         if(resultSearch.length != 0)
+//         {                 
+//             res.render('home', {products : resultSearch, customerI: customer})
+//         }else {
+//             const messageSH = " Khong tim thay"
+//             res.render('allProducts', {products: results, messSH : messageSH, customerI: customer})
+//         }
+//     }   
     
-})
+// })
 
 app.get('/register', (req, res)=>{
     res.render('register')
