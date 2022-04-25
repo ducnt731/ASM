@@ -81,5 +81,11 @@ async function FindDocumentsByGmail(value) {
     return results
 }
 
+async function getCustomer(collectionName) {
+    const dbo = await getDB();
+    const customers = await dbo.collection(collectionName).find({role: 'Customer'}).toArray()
+    return customers
+}
+
 const USER_TABLE_NAME = "Users"
-module.exports = {insertObject, FindDocumentsByGmail, FindAllDocumentsByName, findOne,checkUserRole, checkUserLogin, getUser,USER_TABLE_NAME, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById}
+module.exports = {getCustomer,insertObject, FindDocumentsByGmail, FindAllDocumentsByName, findOne,checkUserRole, checkUserLogin, getUser,USER_TABLE_NAME, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById}
