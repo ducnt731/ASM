@@ -214,12 +214,12 @@ app.post("/register", async (req, res) => {
 })
 
 app.get('/', async(req,res)=>{
+    customer = req.session.user
     // const searchInputH = req.query.txtSearchHome
     const collectionName = "Products"
     const results = await getAllDocumentsFromCollection(collectionName)
     // const resultSearch = await FindAllDocumentsByName(searchInputH)
-    res.render('home', {products:results})
-    res.render('home', { userInfo:req.session.user})
+    res.render('home', {products:results, userInfo:customer})
     //2.hien thu du lieu qua HBS
     // if(searchInputH == null)
     // {         
@@ -235,6 +235,10 @@ app.get('/', async(req,res)=>{
     // }
 })
 
+// app.get('/', (req,res)=>{
+//     res.render('home', {userInfo:req.session.user})
+// })
+
 app.post('/buy',requiresLoginCustomer, async (req,res)=>{
     const id = req.body.txtId
     customer = req.session.user
@@ -245,7 +249,7 @@ app.post('/buy',requiresLoginCustomer, async (req,res)=>{
         let dict = {
             user: customer.name,
             // id: customer._id,
-            cart: [],
+            cart:[],
         }
             results.qty = 1;
             results.subtotal = results.price * results.qty;

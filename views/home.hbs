@@ -28,18 +28,18 @@
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
                     {{#if userInfo}}
-                        <a style="font-size:smaller;" href="/myCart" class="btn btn-info btn-lg">Shopping cart </a>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Hi, {{userInfo.userName}}
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Edit profile</a></li>
-                                <li><a class="dropdown-item" href="#">Purchase history</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                            </ul>
-                        </li>
+                    <a style="font-size:smaller;" href="/myCart" class="btn btn-info btn-lg">Shopping cart </a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Hi, {{userInfo.userName}}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Edit profile</a></li>
+                            <li><a class="dropdown-item" href="#">Purchase history</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
                     {{else}}
                     <form class="d-flex" >
                         <a class="nav-link" href="/login">Login </a>   
