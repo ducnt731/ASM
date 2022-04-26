@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt")
 const session = require('express-session')
 app.use(session({ secret: '124447yd@@$%%#', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
 
-const {insertObject,getUser, FindAllDocumentsByName, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById} = require('./databaseHandler')
+const {insertObject,getUser, FindAllDocumentsByName, FindDocumentsById, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById} = require('./databaseHandler')
 
 //su dung HBS: =>res.render('....')
 app.set('view engine', 'hbs')
@@ -24,15 +24,14 @@ app.use('/admin', adminController)
 const customerController = require('./controllers/customer')
 const res = require('express/lib/response')
 app.use('/customer', customerController)
+
 app.post('/editProduct',async (req,res)=>{
     const nameInput = req.body.txtName
     const priceInput = req.body.txtPrice
     const picURLInput = req.body.txtPicURL
     const quantityInput = req.body.txtQuantity
     const authorInput = req.body.txtAuthor
-
     const id = req.body.txtId
-    
     const myquery = { _id: ObjectId(id) }
     const newvalues = { $set: {name: nameInput, price: priceInput,qunatity:quantityInput,picURL:picURLInput,author: authorInput} }
     const collectionName = "Products"
@@ -79,8 +78,6 @@ app.post('/addProduct',async (req,res)=>{
     const picURLInput = req.body.txtPicURL
     const quantityInput = req.body.txtQuantity
     const authorInput = req.body.txtAuthor
-
-
     if (nameInput.length == 0){
         const errorMessage = "San pham phai co ten!";
         const oldValues = {price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
@@ -139,64 +136,45 @@ app.get("/logout", (req, res) => {
 app.post("/login", async(req, res) => {
     const userName = req.body.txtName;
     const pass = req.body.txtPassword;
-    const user = await dbHandler.checkUserLogin(userName);
+    const user = await dbHandler.checkUserLogin(userName)
     if (user == -1) {
-    res.render("login", { errorMsg: "Not found UserName!!" });
+    res.render("login", { errorMsg: "Not found UserName!!" })
     } else {
-    const validPass = await bcrypt.compare(pass, user.password);
+    const validPass = await bcrypt.compare(pass, user.password)
     if (validPass) {
-        const role = await dbHandler.checkUserRole(userName);
+        const role = await dbHandler.checkUserRole(userName)
         if (role == -1) {
-        res.render("login", { errorMsg: "Login failed!" });
+        res.render("login", { errorMsg: "Login failed!" })
         } else {
         if (req.body.Role == role) {
-            const customer = await dbHandler.getUser(userName, user.mail)
             req.session.user = {
             userName: userName,
-            role: role,
-            gmail: customer.mail,
-            };
-            console.log("Login with: ");
-            console.log(req.session.user);
+            role: role
+            }
+            console.log("Login with: ")
+            console.log(req.session.user)
             req.session["cart"] = null;
             if (role == "Customer") {
-            res.redirect("/");
+            res.redirect('/')
             } else {
-            res.redirect("/adminHome");
+            res.redirect("/adminHome")
             }
         } else {
-            res.render("login", { errorMsg: "Not auth!!" });
+            res.render("login", { errorMsg: "Not auth!!" })
         }
         }
     } else {
-        res.render("login", { errorMsg: "Incorrect password!!" });
+        res.render("login", { errorMsg: "Incorrect password!!" })
     }
     }
 })
 
+app.get('/infoProducts', async (req,res)=>{
+    const id = req.query.id
+    const results = await FindDocumentsById("Products", id)
+    res.render('infoProducts', {products : results})
 
-
-// app.get('/allProducts', async (req,res)=>{
-//     customer = req.session["Customer"]
-//     const searchInputH = req.query.txtSearchHome
-//     const collectionName = "Products"
-//     const results = await getAllDocumentsFromCollection(collectionName)
-//     const resultSearch = await FindAllDocumentsByName(searchInputH)
-//     //2.hien thu du lieu qua HBS
-//     if(searchInputH == null)
-//     {         
-//         res.render('home', {products: results, customerI: customer})       
-//     }else{   
-//         if(resultSearch.length != 0)
-//         {                 
-//             res.render('home', {products : resultSearch, customerI: customer})
-//         }else {
-//             const messageSH = " Khong tim thay"
-//             res.render('allProducts', {products: results, messSH : messageSH, customerI: customer})
-//         }
-//     }   
-    
-// })
+}) 
 
 app.get('/register', (req, res)=>{
     res.render('register')
@@ -224,7 +202,7 @@ app.post("/register", async (req, res) => {
         role: role,
         Address: address,
         password: hashPass,
-        };
+        }
         await dbHandler.insertObject("Users", newUser);
         res.render("login");
     } else {
@@ -235,14 +213,120 @@ app.post("/register", async (req, res) => {
     }
 })
 
-app.get('/',async (req,res)=>{
+app.get('/', async(req,res)=>{
+    // const searchInputH = req.query.txtSearchHome
     const collectionName = "Products"
     const results = await getAllDocumentsFromCollection(collectionName)
-    res.render('home',{products:results})
+    // const resultSearch = await FindAllDocumentsByName(searchInputH)
+    res.render('home', {products:results})
+    res.render('home', { userInfo:req.session.user})
+    //2.hien thu du lieu qua HBS
+    // if(searchInputH == null)
+    // {         
+    //     res.render('home', {products:results, userI:req.session.user})       
+    // }else{   
+    //     if(resultSearch.length != 0)
+    //     {                 
+    //         res.render('home', {products : resultSearch, userI:req.session.user})
+    //     }else {
+    //         const messageSH = " Khong tim thay"
+    //         res.render('home', {products: results, messSH : messageSH, userI:req.session.user})
+    //     }
+    // }
 })
 
-app.get('/', (req,res)=>{
-    res.render('home')
+app.post('/buy',requiresLoginCustomer, async (req,res)=>{
+    const id = req.body.txtId
+    customer = req.session.user
+    const results = await FindDocumentsById("Products", id)
+    let cart = req.session["cart"]
+    //chua co gio hang trong session, day se la sp dau tien
+    if(!cart){
+        let dict = {
+            user: customer.name,
+            // id: customer._id,
+            cart: [],
+        }
+            results.qty = 1;
+            results.subtotal = results.price * results.qty;
+            dict.cart.push(results);
+            req.session["cart"] = dict;
+            console.log(dict)
+    }else{
+        dict = req.session["cart"]
+        //kiem tra book co trong dict k
+        // Phương thức findIndex() trả về chỉ số của phần tử đầu tiên trong mảng đáp ứng chức năng kiểm tra được cung cấp. Nếu không, -1 được trả về.
+        var oldBook = dict.cart.findIndex((book) => book._id == results._id);
+        if (oldBook == -1) {
+            results.qty = 1;
+            results.subtotal = results.price * results.qty;
+            dict.cart.push(results);
+        } else {
+            const oBook = dict.cart[oldBook];
+            oBook.qty += 1;
+            oBook.subtotal = oBook.price * oBook.qty;
+        }
+        req.session["cart"] = dict
+        console.log(dict)
+    }
+    res.redirect('/')
+})
+app.get('/remove', async (req,res)=>{
+    dict = req.session["cart"]
+    const id = req.body.txtId
+    for(var i = 0; i < dict.cart.length; i++){
+        if(dict.cart._id == id){
+            console.log(dict.cart._id)
+            dict.cart.splice(i,1)
+            return res.redirect('cart')
+        }
+    }    
+})
+
+function requiresLoginCustomer(req,res,next){
+    if(req.session.user){
+        return next()
+    }else{
+        res.redirect('/login')
+    }
+}
+
+app.get('/myCart',requiresLoginCustomer, async (req,res)=>{
+    let quantity = 0;
+    let ship = 0;
+    let total = 0;
+    let totalC = 0;
+    const dict = req.session["cart"]
+    for(var i = 0; i < dict.cart.length; i++){
+        quantity += dict.cart[i].qty
+        total += dict.cart[i].subtotal
+    }
+    if(quantity == 0)
+    {
+        ship = 0
+    }else if(quantity < 10){
+        ship = 10
+    }else{
+        ship = 5
+    }
+
+    totalC = total + ship
+    res.render('Cart',{cart: dict, quantity: quantity, ship: ship, total: total, totalC: totalC})
+
+})
+app.post('/order', requiresLoginCustomer,async (req, res) => {
+    const cart = req.session["cart"]
+    // var today = new Date();
+    // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()+ " -- "+ today.getDay()+"/"+ today.getMonth()+"/"+today.getFullYear();
+    var today = new Date();
+    var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date+' '+time;
+    console.log(dateTime)
+    const newO = {cart: cart, time: dateTime, status:"Waiting for the goods"}
+    insertObject("Order",newO)
+    req.session["cart"] = null;
+    res.redirect('/')
 })
 
 const PORT = process.env.PORT || 5000
