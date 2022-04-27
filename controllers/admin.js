@@ -11,17 +11,6 @@ router.get('/viewprofile', async (req, res) => {
     res.render('viewprofile', { users: results })
 })
 
-router.post('/edit',async (req,res)=>{
-    const nameInput = req.body.txtName
-    const priceInput = req.body.txtPrice
-    const picURLInput = req.body.txtPicURL
-    const quantityInput = req.body.txtQuantity
-    const authorInput = req.body.txtAuthor
-    const id = req.body.txtId
-    const myquery = { _id: ObjectId(id) }
-    const newvalues = { $set: {name: nameInput, price: priceInput, qunatity:quantityInput,picURL:picURLInput,author: authorInput} }
-    const collectionName = "Products"
-})
 router.get('/delete', async (req, res) => {
     const id = req.query.id
     //ham xoa user dua tren id
@@ -52,82 +41,6 @@ router.post('/editCustomer',async (req,res) =>{
     res.redirect('viewprofile')
 })
 
-router.get('/edit',async (req,res)=>{
-    const id = req.query.id
-    const collectionName = "Products"
-    const productToEdit = await getDocumentById(collectionName, id)
-    res.render('editProduct',{product:productToEdit})
-})
-
-router.get('/addProduct',async (req,res)=>{
-    res.render('addProduct')
-})
-
-router.get('/deleteProduct',async (req,res)=>{
-    const id = req.query.id
-    const collectionName = "Products"
-    await deleteDocumentById(collectionName, id)
-    res.redirect('/product')
-})
-
-router.get('/product',async (req,res)=>{
-    const collectionName = "Products"
-    const results = await getAllDocumentsFromCollection(collectionName)
-    res.render('product',{products:results})
-})
-
-router.post('/addProduct',async (req,res)=>{
-    const nameInput = req.body.txtName
-    const priceInput = req.body.txtPrice
-    const picURLInput = req.body.txtPicURL
-    const quantityInput = req.body.txtQuantity
-    const authorInput = req.body.txtAuthor
-
-    if (nameInput.length == 0){
-        const errorMessage = "San pham phai co ten!";
-        const oldValues = {price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
-        res.render('addProduct',{errorName:errorMessage})
-        console.log("a")
-        return;
-    } else if (priceInput.length == 0){
-        const errorMessage = "San pham phai co gia!";
-        const oldValues = {name:nameInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
-        res.render('product',{errorPrice:errorMessage,oldValues:oldValues})
-        console.log("b")
-        return;
-    } else if(isNaN(priceInput)== true){
-        const errorMessage = "Gia phai la so!"
-        const oldValues = {name:nameInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
-        res.render('addProduct',{errorPriceNaN:errorMessage,oldValues:oldValues})
-        console.log("c")
-        return;
-    } else if (picURLInput.length == 0 ) {
-        const errorMessage = "San pham phai co anh!"
-        const oldValues = {name:nameInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
-        res.render('addProduct',{errorLink:errorMessage,oldValues:oldValues})
-        console.log("d")
-        return;
-    } else if (quantityInput.length == 0) {
-        const errorMessage = "San pham phai co so luong!"
-        const oldValues = {name:nameInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
-        res.render('addProduct',{errorQuantity:errorMessage,oldValues:oldValues})
-        console.log("e")
-        
-    } else if (isNaN(quantityInput)){
-        const errorMessage = "So luong phai la so!"
-        const oldValues = {name:nameInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
-        res.render('addProduct',{errorQuantityNaN:errorMessage,oldValues:oldValues})
-        console.log("g")
-        return;
-    }
-    else {
-        const newP = {name:nameInput,price:Number.parseFloat(priceInput),quantity:quantityInput,picURL:picURLInput,author:authorInput}
-        const collectionName = "Products"
-        await insertObject(collectionName,newP)   
-        res.redirect('/product')
-    }
-    
-})
 router.get('/editCustomer', async (req, res) => {
     const id = req.query.id
     //lay information old of user before edit
@@ -136,4 +49,106 @@ router.get('/editCustomer', async (req, res) => {
     res.render("editCustomer", { users: productToEdit,id:id })
 })
 
+// Ham manage product
+app.post('/editProduct',async (req,res)=>{
+    const nameInput = req.body.txtName
+    const priceInput = req.body.txtPrice
+    const picURLInput = req.body.txtPicURL
+    const quantityInput = req.body.txtQuantity
+    const authorInput = req.body.txtAuthor
+    const descriptionInput = req.body.txtDescription
+    const id = req.body.txtId
+    const myquery = { _id: ObjectId(id) }
+    const newvalues = { $set: {name: nameInput, price: priceInput,qunatity:quantityInput,picURL:picURLInput,author: authorInput,description: descriptionInput} }
+    const collectionName = "Products"
+    await updateCollection(collectionName, myquery, newvalues)
+    res.redirect('product')
+})
+
+app.get('/editProduct',async (req,res)=>{
+    const id = req.query.id
+    const collectionName = "Products"
+    const productToEdit = await getDocumentById(collectionName, id)
+    res.render('editProduct',{product:productToEdit})
+})
+app.get('/adminHome',(req,res)=>{
+    res.render('adminHome')
+})
+
+app.get('/addProduct',async (req,res)=>{
+    res.render('addProduct')
+})
+
+app.get('/deleteProduct',async (req,res)=>{
+    const id = req.query.id
+    const collectionName = "Products"
+    await deleteDocumentById(collectionName, id)
+    res.redirect('product')
+})
+
+app.get('/product',async (req,res)=>{
+    const collectionName = "Products"
+    const results = await getAllDocumentsFromCollection(collectionName)
+    res.render('product',{products:results})
+})
+
+
+app.post('/addProduct',async (req,res)=>{
+    const nameInput = req.body.txtName
+    const priceInput = req.body.txtPrice
+    const picURLInput = req.body.txtPicURL
+    const quantityInput = req.body.txtQuantity
+    const authorInput = req.body.txtAuthor
+    const descriptionInput = req.body.txtDescription
+    if (nameInput.length == 0){
+        const errorMessage = "Sach phai co ten!";
+        const oldValues = {price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput,description:descriptionInput}
+        res.render('addProduct',{errorName:errorMessage})
+        console.log("a")
+        return;
+    } else if (priceInput.length == 0){
+        const errorMessage = "Sach phai co gia!";
+        const oldValues = {name:nameInput,quantity:quantityInput,picURL:picURLInput,author:authorInput,description:descriptionInput}
+        res.render('product',{errorPrice:errorMessage,oldValues:oldValues})
+        console.log("b")
+        return;
+    } else if(isNaN(priceInput)== true){
+        const errorMessage = "Gia phai la so!"
+        const oldValues = {name:nameInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput,description:descriptionInput}
+        res.render('addProduct',{errorPriceNaN:errorMessage,oldValues:oldValues})
+        console.log("c")
+        return;
+    } else if (picURLInput.length == 0 ) {
+        const errorMessage = "San pham phai co anh!"
+        const oldValues = {name:nameInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput,description:descriptionInput}
+        res.render('addProduct',{errorLink:errorMessage,oldValues:oldValues})
+        console.log("d")
+        return;
+    } else if (quantityInput.length == 0) {
+        const errorMessage = "San pham phai co so luong!"
+        const oldValues = {name:nameInput,price:priceInput,picURL:picURLInput,author:authorInput,description:descriptionInput}
+        res.render('addProduct',{errorQuantity:errorMessage,oldValues:oldValues})
+        console.log("e")
+        
+    } else if (isNaN(quantityInput)){
+        const errorMessage = "So luong phai la so!"
+        const oldValues = {name:nameInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput,description:descriptionInput}
+        res.render('addProduct',{errorQuantityNaN:errorMessage,oldValues:oldValues})
+        console.log("f")
+        return;
+    } else if (descriptionInput.length == 0){
+        const errorMessage = "Sach phai co mieu ta!";
+        const oldValues = {price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput,description:descriptionInput}
+        res.render('addProduct',{errorName:errorMessage})
+        console.log("g")
+        return;
+    }
+    else {
+        const newP = {name:nameInput,price:Number.parseFloat(priceInput),quantity:Number.parseFloat(quantityInput),picURL:picURLInput,author:authorInput,description:descriptionInput}
+        const collectionName = "Products"
+        await insertObject(collectionName,newP)   
+        res.redirect('product')
+    }
+    
+})
 module.exports = router;

@@ -27,7 +27,6 @@
         </div>
     </nav>
     <h1>View profile</h1>
-<<<<<<< HEAD
         {{#each users}}
         <lu>
             <li>{{fullName}}|{{Address}}|{{Phone}}</li>
@@ -55,40 +54,6 @@
             
         </thread>
         </table>
-=======
-    {{!-- {{#each users}}
-    <lu>
-        <li>{{fullName}}|{{Address}}|{{Phone}}</li>
-    </lu> --}}
-    <ul>
-        <center>
-            <table class="table table-dark table-striped">
-                <thread>
-                    <tr>
-                        <th>fullName</th>
-                        <th>Address</th>
-                        <th>Phone</th>
-                        <th>Gmail</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                    {{#each users}}
-                    <tr>
-                        <td>{{fullName}}</td>
-                        <td>{{Address}}</td>
-                        <td>{{Phone}}</td>
-                        <td>{{Gmail}}</td>
-                        <td><a href="editCustomer?id={{_id}}">edit</a></td>
-                        <td><a onclick="return confirm('are you want to delete')" href="delete?id={{_id}}">delete</a>
-                        </td>
-                    </tr>
-                    {{/each}}
-
-                </thread>
-            </table>
-        </center> 
-        </ul>
->>>>>>> d447682999313a8bb8498a06081785ec58b49905
 </body>
 
 </html>
