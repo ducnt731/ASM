@@ -3,7 +3,7 @@ const async = require('hbs/lib/async')
 const bcrypt = require('bcrypt')
 const { ObjectId } = require('mongodb')
 const router = express.Router()
-const {insertObject,USER_TABLE_NAME, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById,getCustomer} = require('../databaseHandler')
+const {insertObject, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById,getCustomer} = require('../databaseHandler')
 
 router.get('/viewprofile', async (req, res) => {
     const collectionName = "Users"

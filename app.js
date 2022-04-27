@@ -199,7 +199,7 @@ app.get('/myCart',requiresLoginCustomer, async (req,res)=>{
     let total = 0;
     let totalC = 0;
     const dict = req.session["cart"]
-    for(var i = 0; i < dict.cart.length; i++){
+    for(var i = 0; i < dict.cart.lenght; i++){
         quantity += dict.cart[i].qty
         total += dict.cart[i].subtotal
     }
@@ -230,6 +230,23 @@ app.post('/order', requiresLoginCustomer,async (req, res) => {
     insertObject("Order",newO)
     req.session["cart"] = null;
     res.redirect('/')
+})
+//Ham manage order 
+
+app.get('/viewOrder',(req, res) => {
+    const collectionName = "Order"
+    const results = await getAllDocumentsFromCollection(collectionName)
+    res.render('product',{orders:results})
+})
+
+app.get('/editOrder',(req, res) => {
+    const id = req.body.id
+    const status = req.body.status
+    const orderName = await get
+})
+
+app.post('/editOrder',(req, res)=>{
+
 })
 
 const PORT = process.env.PORT || 5000
