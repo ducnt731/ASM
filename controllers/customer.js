@@ -225,4 +225,30 @@ router.post("/UpdateSt", async (req, res) => {
   res.redirect("/shoppingCart/Purchase");
 });
 
+
+router.get("/updateMyProfile", async (req, res) => {
+  const user = await dbHandler.getUser(req.session.user.name);
+  res.render("updateMyProfile", { user: user });
+});
+
+router.post("/updateMyProfile", async (req, res) => {
+  const phone = req.body.txtPhone;
+  const fullName = req.body.txtName;
+  const email = req.body.txtEmail;
+  const user = await dbHandler.getUser(req.session.user.name);
+  const updateValue = {
+    $set: {
+      userName: user.userName,
+      email: email,
+      Name: fullName,
+      phone: phone,
+      role: user.role,
+      password: user.password,
+    },
+  }
+  await dbHandler.updateDocument(user._id, updateValue, "Users");
+  res.render("updateMyProfile");
+});
+
+
 module.exports = router;

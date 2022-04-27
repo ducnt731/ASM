@@ -66,11 +66,11 @@ app.get('/product',async (req,res)=>{
     res.render('product',{products:results})
 })
 
-app.get('/',async (req,res)=>{
-    const collectionName = "Products"
-    const results = await getAllDocumentsFromCollection(collectionName)
-    res.render('home',{products:results})
-})
+// app.get('/',async (req,res)=>{
+//     const collectionName = "Products"
+//     const results = await getAllDocumentsFromCollection(collectionName)
+//     res.render('home',{products:results})
+// })
 
 app.post('/addProduct',async (req,res)=>{
     const nameInput = req.body.txtName
