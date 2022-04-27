@@ -153,7 +153,7 @@ app.post("/login", async(req, res) => {
             }
             console.log("Login with: ")
             console.log(req.session.user)
-            req.session["cart"] = null;
+            req.session["cart"] = 0
             if (role == "Customer") {
             res.redirect('/')
             } else {
