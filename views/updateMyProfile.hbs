@@ -30,27 +30,33 @@
                     {{#if userInfo}}
                     <a style="font-size:smaller;" href="/myCart" class="btn btn-info btn-lg">Shopping cart </a>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Hi, {{userInfo.userName}}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/customer/updateMyProfile?user={{userInfo.userName}}">Edit profile</a></li>
+                            <li><a class="dropdown-item"
+                                    href="/customer/updateMyProfile?user={{userInfo.userName}}">Edit profile</a></li>
+
                             <li><a class="dropdown-item" href="#">Purchase history</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="/logout">Logout</a></li>
                         </ul>
                     </li>
                     {{else}}
-                    <form class="d-flex" >
-                        <a class="nav-link" href="/login">Login </a>   
-                        <a class="nav-link" href="/register">Register</a>                     
+                    <form class="d-flex">
+                        <a class="nav-link" href="/login">Login </a>
+                        <a class="nav-link" href="/register">Register</a>
                     </form>
                     </li>
                     {{/if}}
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit" style="color: rgb(5, 5, 5);">Search</button>
-                </form>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit"
+                            style="color: rgb(5, 5, 5);">Search</button>
+                    </form>
             </div>
         </div>
     </nav>
@@ -62,16 +68,15 @@
     <lu>
         <li>{{fullName}}|{{Address}}|{{Phone}}</li>
     </lu> --}}
-    <form method="post" action="updateProfile">
+    <form method="post" action="updateMyProfile">
         <br>
-        <input type="hidden" name="txtId" value="{{userInfo.userName}}">
-        Full name: <input type="text" name="txtFullName" id="txtFullName" value = "{{userInfo.fullName}}">
+        Full name: <input type="text" name="txtFullName" id="txtFullName" value="{{userInfo.fullName}}">
         <br>
-        Address: <input type="text" name="txtAddress" id="txtAddress" value = "{{userInfo.Address}}">
+        Address: <input type="text" name="txtAddress" id="txtAddress" value="{{userInfo.Address}}">
         <br>
-        Phone numbers: <input type="text" name="txtPhone" id="txtPhone" value = "{{userInfo.Phone}}">
+        Phone numbers: <input type="text" name="txtPhone" id="txtPhone" value="{{userInfo.Phone}}">
         <br>
-        Gmail: <input type="text" name="txtGmail" id="txtGmail" value = "{{userInfo.Gmail}}">
+        Gmail: <input type="text" name="txtEmail" id="txtEmail" value="{{userInfo.Gmail}}">
         <input type="submit" value="Update">
         <table>
             <tr>

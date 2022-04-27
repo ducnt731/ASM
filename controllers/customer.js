@@ -87,27 +87,31 @@ router.post("/UpdateSt", async (req, res) => {
 
 
 router.get("/updateMyProfile", async (req, res) => {
-  const user = await dbHandler.getUser(req.session.user.name);
-  res.render("updateMyProfile", { user: user });
+  console.log(req.session.user.userName)
+  
+  const user = await dbHandler.getUser(req.session.user.userName);
+  console.log(user)
+  res.render("updateMyProfile", { userInfo: user });
 });
 
 router.post("/updateMyProfile", async (req, res) => {
   const phone = req.body.txtPhone;
-  const fullName = req.body.txtName;
+  const fullName = req.body.txtFullName;
   const email = req.body.txtEmail;
-  const user = await dbHandler.getUser(req.session.user.name);
+  const user = await dbHandler.getUser(req.session.user.userName);
+
   const updateValue = {
     $set: {
-      userName: user.userName,
-      email: email,
-      Name: fullName,
-      phone: phone,
+      Gmail: email,
+      fullName: fullName,
+      Phone: phone,
       role: user.role,
       password: user.password,
     }
   }
-  await dbHandler.updateDocument(user._id, updateValue, "Users")
-  res.render("updateMyProfile");
+  await dbHandler.updateDocument(user, updateValue, "Users")
+  res.redirect("updateMyProfile");
 });
+
 
 module.exports = router;
