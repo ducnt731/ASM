@@ -138,8 +138,8 @@ app.post('/addProduct',async (req,res)=>{
         return;
     } else if (descriptionInput.length == 0){
         const errorMessage = "Sach phai co mieu ta!";
-        const oldValues = {price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput,description:descriptionInput}
-        res.render('addProduct',{errorName:errorMessage})
+        const oldValues = {name:nameInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
+        res.render('addProduct',{errorDescription:errorMessage,oldValues:oldValues})
         console.log("g")
         return;
     }
@@ -151,4 +151,9 @@ app.post('/addProduct',async (req,res)=>{
     }
     
 })
+
+//Ham manage Order
+
+
+
 module.exports = router;
