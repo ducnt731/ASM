@@ -3,43 +3,7 @@ const async = require('hbs/lib/async')
 const bcrypt = require('bcrypt')
 const { ObjectId } = require('mongodb')
 const router = express.Router()
-const {insertObject,USER_TABLE_NAME, FindDocumentsByGmail, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById,getCustomer} = require('../databaseHandler')
-
-// router.get('/register',(req,res)=>{
-//     res.render('register')
-// })
-// router.post("/register", async (req, res) => {
-//     const userName = req.body.txtUser;
-//     const mail = req.body.txtMail;
-//     const phone = req.body.txtPhone;
-//     const pass = req.body.txtPass;
-//     const rePass = req.body.txtRePass;
-//     const role = req.body.Role;
-//     const fullName = req.body.txtName;
-//     const address = req.body.txtAddress
-//     const hashPass = await bcrypt.hash(pass, 10);
-//     const existedUser = await dbHandler.checkUserLogin(userName);
-//     if (existedUser == -1) {
-//     const validPass = await bcrypt.compare(rePass, hashPass);
-//         if (validPass) {
-//         const newUser = {
-//         userName: userName,
-//         gmail: mail,
-//         Name: fullName,
-//         phone: phone,
-//         role: role,
-//         Address: address,
-//         password: hashPass,
-//         };
-//         await dbHandler.insertObject("Users", newUser);
-//         res.render("register");
-//     } else {
-//         res.render("register", { errorMsg: "Password is not match" });
-//     }
-//     } else {
-//     res.render("register", { errorMsg: "Username already used" });
-//     }
-// })
+const {insertObject,USER_TABLE_NAME, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById,getCustomer} = require('../databaseHandler')
 
 router.get('/viewprofile', async (req, res) => {
     const collectionName = "Users"
@@ -74,7 +38,6 @@ router.post('/editCustomer',async (req,res) =>{
     //ham update
     const id = req.body.txtId
     const myquery = { _id: ObjectId(id) }
-
     const newvalues = {$set: {
             fullName: fullnameInput,
             Address: addressInput,

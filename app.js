@@ -55,7 +55,7 @@ app.post("/login", async(req, res) => {
             }
             console.log("Login with: ")
             console.log(req.session.user)
-            req.session["cart"] = null;
+            req.session["cart"] = 0
             if (role == "Customer") {
             res.redirect('/')
             } else {
@@ -137,10 +137,6 @@ app.get('/', async(req,res)=>{
     // }
 })
 
-// app.get('/', (req,res)=>{
-//     res.render('home', {userInfo:req.session.user})
-// })
-
 app.post('/buy',requiresLoginCustomer, async (req,res)=>{
     const id = req.body.txtId
     customer = req.session.user
@@ -184,7 +180,7 @@ app.get('/remove', async (req,res)=>{
         if(dict.cart._id == id){
             console.log(dict.cart._id)
             dict.cart.splice(i,1)
-            return res.redirect('cart')
+            return res.redirect('myCart')
         }
     }    
 })
@@ -217,7 +213,7 @@ app.get('/myCart',requiresLoginCustomer, async (req,res)=>{
     }
 
     totalC = total + ship
-    res.render('Cart',{cart: dict, quantity: quantity, ship: ship, total: total, totalC: totalC})
+    res.render('myCart',{cart: dict, quantity: quantity, ship: ship, total: total, totalC: totalC})
 
 })
 app.post('/order', requiresLoginCustomer,async (req, res) => {
