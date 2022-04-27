@@ -220,13 +220,13 @@ app.post('/order', requiresLoginCustomer,async (req, res) => {
     const cart = req.session["cart"]
     // var today = new Date();
     // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()+ " -- "+ today.getDay()+"/"+ today.getMonth()+"/"+today.getFullYear();
-    
+
     var today = new Date();
     var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date+' '+time;
     console.log(dateTime)
-    const newO = {cart: cart, time: dateTime, status:"Waiting for the goods"}
+    const newO = {cart: cart, customer:customer.name, time: dateTime, status:"Waiting for the goods"}
     insertObject("Order",newO)
     req.session["cart"] = null;
     res.redirect('/')

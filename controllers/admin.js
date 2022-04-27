@@ -50,7 +50,7 @@ router.get('/editCustomer', async (req, res) => {
 })
 
 // Ham manage product
-app.post('/editProduct',async (req,res)=>{
+router.post('/editProduct',async (req,res)=>{
     const nameInput = req.body.txtName
     const priceInput = req.body.txtPrice
     const picURLInput = req.body.txtPicURL
@@ -65,35 +65,35 @@ app.post('/editProduct',async (req,res)=>{
     res.redirect('product')
 })
 
-app.get('/editProduct',async (req,res)=>{
+router.get('/editProduct',async (req,res)=>{
     const id = req.query.id
     const collectionName = "Products"
     const productToEdit = await getDocumentById(collectionName, id)
     res.render('editProduct',{product:productToEdit})
 })
-app.get('/adminHome',(req,res)=>{
+router.get('/adminHome',(req,res)=>{
     res.render('adminHome')
 })
 
-app.get('/addProduct',async (req,res)=>{
+router.get('/addProduct',async (req,res)=>{
     res.render('addProduct')
 })
 
-app.get('/deleteProduct',async (req,res)=>{
+router.get('/deleteProduct',async (req,res)=>{
     const id = req.query.id
     const collectionName = "Products"
     await deleteDocumentById(collectionName, id)
     res.redirect('product')
 })
 
-app.get('/product',async (req,res)=>{
+router.get('/product',async (req,res)=>{
     const collectionName = "Products"
     const results = await getAllDocumentsFromCollection(collectionName)
     res.render('product',{products:results})
 })
 
 
-app.post('/addProduct',async (req,res)=>{
+router.post('/addProduct',async (req,res)=>{
     const nameInput = req.body.txtName
     const priceInput = req.body.txtPrice
     const picURLInput = req.body.txtPicURL
