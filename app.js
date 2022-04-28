@@ -181,13 +181,13 @@ app.get('/register', (req, res)=>{
 })
 
 app.post("/register", async (req, res) => {
-    const userName = req.body.txtName;
-    const mail = req.body.txtGmail;
-    const phone = req.body.txtPhone;
-    const pass = req.body.txtPassword;
-    const rePass = req.body.txtRePass;
-    const role = req.body.Role;
-    const fullName = req.body.txtFullName;
+    const userName = req.body.txtName
+    const mail = req.body.txtGmail
+    const phone = req.body.txtPhone
+    const pass = req.body.txtPassword
+    const rePass = req.body.txtRePass
+    const role = req.body.Role
+    const fullName = req.body.txtFullName
     const address = req.body.txtAddress
     const hashPass = await bcrypt.hash(pass, 10);
     const existedUser = await dbHandler.checkUserLogin(userName);

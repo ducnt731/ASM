@@ -39,12 +39,13 @@
                     <p>Price: {{products.price}}</p>
                     <p>Description: </p>
                     <p>Available: <span>In stock</span></p>
-                    <p>Shipping fee: <span>Free</span></p>
+                    <p>Shipping fee: <span>10$</span></p>
                 </div>
                 <form action="/buy" method="post">
                     <input type="hidden" name="txtId" value="{{products._id}}">
                     <button type="submit" class="btn btn-outline-success">Add to Cart</button>
                 </form>
+                <a class="btn btn-primary" href="/customer/feedback" role="button">Link</a>
             </div>
         </div>
     </div>
