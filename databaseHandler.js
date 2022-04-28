@@ -101,6 +101,10 @@ async function getAllFeedback() {
     return result
 }
 
+async function updateDocument(id, data, collectionName) {
+    const dbo = await getDB()
+    await dbo.collection(collectionName).updateOne(id, data)
+}
 const USER_TABLE_NAME = "Users"
 module.exports = {
     getCustomer,
@@ -116,4 +120,5 @@ module.exports = {
     updateCollection,
     FindDocumentsById,
     getAllFeedback,
-    getDocumentById}
+    getDocumentById,
+    updateDocument}

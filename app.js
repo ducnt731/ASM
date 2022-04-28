@@ -25,104 +25,6 @@ const customerController = require('./controllers/customer')
 const res = require('express/lib/response')
 app.use('/customer', customerController)
 
-app.post('/editProduct',async (req,res)=>{
-    const nameInput = req.body.txtName
-    const priceInput = req.body.txtPrice
-    const picURLInput = req.body.txtPicURL
-    const quantityInput = req.body.txtQuantity
-    const authorInput = req.body.txtAuthor
-    const id = req.body.txtId
-    const myquery = { _id: ObjectId(id) }
-    const newvalues = { $set: {name: nameInput, price: priceInput,qunatity:quantityInput,picURL:picURLInput,author: authorInput} }
-    const collectionName = "Products"
-    await updateCollection(collectionName, myquery, newvalues)
-    res.redirect('/product')
-})
-
-app.get('/editProduct',async (req,res)=>{
-    const id = req.query.id
-    const collectionName = "Products"
-    const productToEdit = await getDocumentById(collectionName, id)
-    res.render('editProduct',{product:productToEdit})
-})
-app.get('/adminHome',(req,res)=>{
-    res.render('adminHome')
-})
-
-app.get('/addProduct',async (req,res)=>{
-    res.render('addProduct')
-})
-
-app.get('/deleteProduct',async (req,res)=>{
-    const id = req.query.id
-    const collectionName = "Products"
-    await deleteDocumentById(collectionName, id)
-    res.redirect('/product')
-})
-
-app.get('/product',async (req,res)=>{
-    const collectionName = "Products"
-    const results = await getAllDocumentsFromCollection(collectionName)
-    res.render('product',{products:results})
-})
-
-// app.get('/',async (req,res)=>{
-//     const collectionName = "Products"
-//     const results = await getAllDocumentsFromCollection(collectionName)
-//     res.render('home',{products:results})
-// })
-
-app.post('/addProduct',async (req,res)=>{
-    const nameInput = req.body.txtName
-    const priceInput = req.body.txtPrice
-    const picURLInput = req.body.txtPicURL
-    const quantityInput = req.body.txtQuantity
-    const authorInput = req.body.txtAuthor
-    if (nameInput.length == 0){
-        const errorMessage = "San pham phai co ten!";
-        const oldValues = {price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
-        res.render('addProduct',{errorName:errorMessage})
-        console.log("a")
-        return;
-    } else if (priceInput.length == 0){
-        const errorMessage = "San pham phai co gia!";
-        const oldValues = {name:nameInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
-        res.render('product',{errorPrice:errorMessage,oldValues:oldValues})
-        console.log("b")
-        return;
-    } else if(isNaN(priceInput)== true){
-        const errorMessage = "Gia phai la so!"
-        const oldValues = {name:nameInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
-        res.render('addProduct',{errorPriceNaN:errorMessage,oldValues:oldValues})
-        console.log("c")
-        return;
-    } else if (picURLInput.length == 0 ) {
-        const errorMessage = "San pham phai co anh!"
-        const oldValues = {name:nameInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
-        res.render('addProduct',{errorLink:errorMessage,oldValues:oldValues})
-        console.log("d")
-        return;
-    } else if (quantityInput.length == 0) {
-        const errorMessage = "San pham phai co so luong!"
-        const oldValues = {name:nameInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
-        res.render('addProduct',{errorQuantity:errorMessage,oldValues:oldValues})
-        console.log("e")
-        
-    } else if (isNaN(quantityInput)){
-        const errorMessage = "So luong phai la so!"
-        const oldValues = {name:nameInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
-        res.render('addProduct',{errorQuantityNaN:errorMessage,oldValues:oldValues})
-        console.log("g")
-        return;
-    }
-    else {
-        const newP = {name:nameInput,price:Number.parseFloat(priceInput),quantity:quantityInput,picURL:picURLInput,author:authorInput}
-        const collectionName = "Products"
-        await insertObject(collectionName,newP)   
-        res.redirect('/product')
-    }
-    
-})
 
 app.get("/login", (req, res)=>{
     res.render('login')
@@ -297,7 +199,7 @@ app.get('/myCart',requiresLoginCustomer, async (req,res)=>{
     let total = 0;
     let totalC = 0;
     const dict = req.session["cart"]
-    for(var i = 0; i < dict.cart.length; i++){
+    for(var i = 0; i < dict.cart.lenght; i++){
         quantity += dict.cart[i].qty
         total += dict.cart[i].subtotal
     }
@@ -318,15 +220,33 @@ app.post('/order', requiresLoginCustomer,async (req, res) => {
     const cart = req.session["cart"]
     // var today = new Date();
     // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()+ " -- "+ today.getDay()+"/"+ today.getMonth()+"/"+today.getFullYear();
+
     var today = new Date();
     var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date+' '+time;
     console.log(dateTime)
-    const newO = {cart: cart, time: dateTime, status:"Waiting for the goods"}
+    const newO = {cart: cart, customer:customer.name, time: dateTime, status:"Waiting for the goods"}
     insertObject("Order",newO)
     req.session["cart"] = null;
     res.redirect('/')
+})
+//Ham manage order 
+
+app.get('/viewOrder',(req, res) => {
+    const collectionName = "Order"
+    const results = await getAllDocumentsFromCollection(collectionName)
+    res.render('product',{orders:results})
+})
+
+app.get('/editOrder',(req, res) => {
+    const id = req.body.id
+    const status = req.body.status
+    const orderName = await get
+})
+
+app.post('/editOrder',(req, res)=>{
+
 })
 
 const PORT = process.env.PORT || 5000
