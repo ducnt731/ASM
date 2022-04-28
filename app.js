@@ -238,7 +238,7 @@ app.post('/order', requiresLoginCustomer,async (req, res) => {
 app.get('/viewOrder', async(req, res) => {
     const collectionName = "Order"
     const results = await getAllDocumentsFromCollection(collectionName)
-    res.render('product',{orders:results})
+    res.render('viewOrder',{orders:results})
 })
 
 app.get('/editOrder', async(req, res) => {

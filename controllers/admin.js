@@ -5,6 +5,8 @@ const { ObjectId } = require('mongodb')
 const router = express.Router()
 const {insertObject, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById,getCustomer} = require('../databaseHandler')
 
+router.use(express.urlencoded({ extended: true }))
+router.use(express.static('public'))
 router.get('/viewprofile', async (req, res) => {
     const collectionName = "Users"
     const results = await getCustomer(collectionName)
@@ -144,7 +146,7 @@ router.post('/addProduct',async (req,res)=>{
         return;
     }
     else {
-        const newP = {name:nameInput,price:Number.parseFloat(priceInput),quantity:Number.parseFloat(quantityInput),picURL:picURLInput,author:authorInput,description:descriptionInput}
+        const newP = {name:nameInput,price:Number.parseFloat(priceInput),quantity:Number.parseInt(quantityInput),picURL:picURLInput,author:authorInput,description:descriptionInput}
         const collectionName = "Products"
         await insertObject(collectionName,newP)   
         res.redirect('product')

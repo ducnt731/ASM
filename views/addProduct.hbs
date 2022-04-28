@@ -15,6 +15,7 @@
         <a href="/">Logout</a> 
     </div>
     <h2>New Product</h2>
+    <center>
     <form action="/addProduct" method="post">
         Name: <input type="text" name="txtName" id="txtName" value="{{oldValues.name}}">
         <span style="color: red;">{{errorName}}</span> 
@@ -39,5 +40,6 @@
         <br>
         <input type="submit" value="Add">
     </form>
+    </center>
 </body>
 </html>
