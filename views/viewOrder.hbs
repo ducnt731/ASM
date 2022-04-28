@@ -1,49 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>View oders</title>
 </head>
+
 <body>
-    <center>
-        <table border="1" cellspacing="1">
-        <thead>
-            <h1>FPT Book</h1>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
             <div class = "bar">
-                <a href="adminHome">Menu</a>
-                <a href="addProduct">Add book</a>
-                <a href="product">View all books</a>
-                <a href="/admin/viewprofile">View profile</a>
-                <a href="/viewOrder">View order</a>
-                <a href="/">Logout</a> 
+                <a class="navbar-brand" href="#">FPT Book store</a>
             </div>
-            <tr></tr>
-                <th>Customer name</th>
-                <th>Time</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-            {{#each orders}}
-            <tr>
-                <td>
-                    <a href="/infoOrder?id={{_id}}">{{customer}}</a>
-                </td>
-                <td>
-                    {{time}}
-                </td>
-                <td>
-                    {{status}}
-                </td>
-                <td>
-                    <a onclick="return confirm('Are you sure you want to cancel this order?')" href="/cancelOrder?id={{_id}}">Cancel</a>
-                </td>
-            </tr>
-            {{/each}}
-        </thead>
-        </table>
-        </center>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/adminHome">Menu</a></li>
+                <li><a href="addProduct">Add book</a></li>
+                <li><a href="product">View all books</a></li>
+                <li><a href="viewprofile">View profile</a></li>
+                <li><a href="/">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <h1>View profile</h1>
+    {{!-- {{#each users}}
+    <lu>
+        <li>{{fullName}}|{{Address}}|{{Phone}}</li>
+    </lu> --}}
+    <ul>
+        <center>
+            <table class="table table-dark table-striped">
+                <thread>
+                    <tr>
+                        <th>id</th>
+                        <th>Cart</th>
+                        <th>time</th>
+                        <th>status</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    {{#each orders}}
+                    <tr>
+                        <td>{{_id}}</td>
+                        <td>{{cart}}</td>
+                        <td>{{time}}</td>
+                        <td>{{status}}</td>
+                        <td><a href="editorder?id={{_id}}">edit</a></td>
+                        <td><a onclick="return confirm('are you want to delete')" href="deleteorder?id={{_id}}">delete</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+
+                </thread>
+            </table>
+        </center> 
+        </ul>
 </body>
+
 </html>
