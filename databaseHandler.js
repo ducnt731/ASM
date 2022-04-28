@@ -101,6 +101,11 @@ async function getAllFeedback() {
     return result
 }
 
+async function deleteOrderByName(collectionName, name) {
+    const dbo = await getDB()
+    await dbo.collection(collectionName).deleteOne({ customer: ObjectId(name) })
+}
+
 async function updateDocument(id, data, collectionName) {
     const dbo = await getDB()
     await dbo.collection(collectionName).updateOne(id, data)
@@ -121,4 +126,5 @@ module.exports = {
     FindDocumentsById,
     getAllFeedback,
     getDocumentById,
+    deleteOrderByName,
     updateDocument}

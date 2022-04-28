@@ -75,7 +75,7 @@ router.get('/adminHome',(req,res)=>{
     res.render('adminHome')
 })
 
-router.get('/addProduct',async (req,res)=>{
+router.get('/addProduct', (req,res)=>{
     res.render('addProduct')
 })
 

@@ -23,6 +23,7 @@ app.use('/admin', adminController)
 
 const customerController = require('./controllers/customer')
 const res = require('express/lib/response')
+const async = require('hbs/lib/async')
 app.use('/customer', customerController)
 
 
@@ -55,7 +56,7 @@ app.post("/login", async(req, res) => {
             }
             console.log("Login with: ")
             console.log(req.session.user)
-            req.session["cart"] = 0
+            req.session["cart"] = null
             if (role == "Customer") {
             res.redirect('/')
             } else {
@@ -173,6 +174,7 @@ app.post('/buy',requiresLoginCustomer, async (req,res)=>{
     }
     res.redirect('/')
 })
+
 app.get('/remove', async (req,res)=>{
     dict = req.session["cart"]
     const id = req.body.txtId
@@ -199,7 +201,7 @@ app.get('/myCart',requiresLoginCustomer, async (req,res)=>{
     let total = 0;
     let totalC = 0;
     const dict = req.session["cart"]
-    for(var i = 0; i < dict.cart.lenght; i++){
+    for(var i = 0; i < dict.cart.length; i++){
         quantity += dict.cart[i].qty
         total += dict.cart[i].subtotal
     }
@@ -211,11 +213,11 @@ app.get('/myCart',requiresLoginCustomer, async (req,res)=>{
     }else{
         ship = 5
     }
-
     totalC = total + ship
     res.render('myCart',{cart: dict, quantity: quantity, ship: ship, total: total, totalC: totalC})
 
 })
+
 app.post('/order', requiresLoginCustomer,async (req, res) => {
     const cart = req.session["cart"]
     // var today = new Date();
@@ -233,20 +235,27 @@ app.post('/order', requiresLoginCustomer,async (req, res) => {
 })
 //Ham manage order 
 
-app.get('/viewOrder',(req, res) => {
+app.get('/viewOrder', async(req, res) => {
     const collectionName = "Order"
     const results = await getAllDocumentsFromCollection(collectionName)
     res.render('product',{orders:results})
 })
 
-app.get('/editOrder',(req, res) => {
+app.get('/editOrder', async(req, res) => {
     const id = req.body.id
     const status = req.body.status
     const orderName = await get
 })
 
-app.post('/editOrder',(req, res)=>{
+app.post('/viewOrder',(req, res)=>{
 
+})
+
+app.get('/cancelOrder', async(req,res)=>{
+    const name = req.session.user.name
+    const collectionName = "Order"
+    await deleteDocumentById(collectionName, name)
+    res.redirect('viewOrder')
 })
 
 const PORT = process.env.PORT || 5000

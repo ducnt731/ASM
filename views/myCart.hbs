@@ -50,15 +50,15 @@
                                     <a class="thumbnail pull-left" href="#"> <img class="media-object" src="{{picURL}}" style="width: 72px; height: 72px;"> </a>
                                     <div class="media-body">
                                         <h4 class="media-heading"><a href="#">{{name}}</a></h4>
-                                        <h5 class="media-heading"> by <a href="#">Brand name</a></h5>
+                                        <h5 class="media-heading"> by <a href="#">FPT Book</a></h5>
                                         <span>Status: </span><span class="text-warning"><strong>Leaves warehouse in 2 - 3 weeks</strong></span>
                                     </div>
                                 </div></td>
                                 <td class="col-md-1" style="text-align: center">
                                 <input type="text" class="form-control"  value="{{qty}}">
                                 </td>
-                                <td class="col-md-1 text-center"><strong>${{price}}</strong></td>
-                                <td class="col-md-1 text-center"><strong>${{subtotal}}</strong></td>
+                                <td class="col-md-1 text-center"><strong>{{price}}$</strong></td>
+                                <td class="col-md-1 text-center"><strong>{{subtotal}}$</strong></td>
                                 <td class="col-md-1"><a onclick="ConfirmDelete()" href="/remove?id={{id}}">Remove </a></td>
                             </tr>
                         {{/each}}
@@ -67,21 +67,21 @@
                             <td>   </td>
                             <td>   </td>
                             <td><h5>Subtotal</h5></td>
-                            <td class="text-right"><h5><strong>${{total}}</strong></h5></td>
+                            <td class="text-right"><h5><strong>{{total}}$</strong></h5></td>
                         </tr>
                         <tr>
                             <td>   </td>
                             <td>   </td>
                             <td>   </td>
-                            <td><h5>Estimated shipping</h5></td>
-                            <td class="text-right"><h5><strong>${{ship}}</strong></h5></td>
+                            <td><h5>Shipping fee</h5></td>
+                            <td class="text-right"><h5><strong>{{ship}}$</strong></h5></td>
                         </tr>
                         <tr>
                             <td>   </td>
                             <td>   </td>
                             <td>   </td>
                             <td><h3>Total</h3></td>
-                            <td class="text-right"><h3><strong>${{totalC}}</strong></h3></td>
+                            <td class="text-right"><h3><strong>{{totalC}}$</strong></h3></td>
                         </tr>
                         <tr>
                             <td>   </td>

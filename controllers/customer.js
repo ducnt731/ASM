@@ -41,11 +41,11 @@ router.post("/feedback", (req, res) => {
 
 router.get("/viewProfile", async (req, res) => {
   const user = await dbHandler.getUser(req.session.user.userName);
-  res.render("profile", { user: user });
+  res.render("viewprofile", { user: user });
 });
 
 router.get("/updateProfile", async (req, res) => {
-  const user = await dbHandler.getUser(eq.session.user.userName);
+  const user = await dbHandler.getUser(req.session.user.userName);
   res.render("UpDateProfile", { user: user });
 });
 
@@ -53,7 +53,7 @@ router.post("/updateProfile", async (req, res) => {
   const phone = req.body.txtPhone;
   const fullName = req.body.txtName;
   const email = req.body.txtEmail;
-  const user = await dbHandler.getUser(eq.session.user.userName);
+  const user = await dbHandler.getUser(req.session.user.userName);
   const updateValue = {
     $set: {
       userName: user.userName,
@@ -65,27 +65,27 @@ router.post("/updateProfile", async (req, res) => {
     },
   }
   await dbHandler.updateDocument(user._id, updateValue, "Users");
-  res.redirect("/shoppingCart/viewProfile");
+  res.redirect("/customer/viewProfile");
 });
 
-router.post("/UpdateSt", async (req, res) => {
-  const id = req.query.id;
-  const status = req.body.status;
-  const UpdateSt = dbHandler.getDocumentById(id, status, "Customer Order");
-  UpdateSt["Status"] = status;
-  const newSt = {
-    $set: {
-      user: UpdateSt.user,
-      books: UpdateSt.books,
-      totalPrice: UpdateSt.totalPrice,
-      time: UpdateSt.time,
-      Status: UpdateSt.Status,
-    },
-  };
-  console.log(newSt);
-  await dbHandler.updateDocument(id, newSt, " Customer Order");
-  res.redirect("/shoppingCart/Purchase");
-});
+// router.post("/UpdateSt", async (req, res) => {
+//   const id = req.query.id;
+//   const status = req.body.status;
+//   const UpdateSt = dbHandler.getDocumentById(id, status, "Customer Order");
+//   UpdateSt["Status"] = status;
+//   const newSt = {
+//     $set: {
+//       user: UpdateSt.user,
+//       books: UpdateSt.books,
+//       totalPrice: UpdateSt.totalPrice,
+//       time: UpdateSt.time,
+//       Status: UpdateSt.Status,
+//     },
+//   };
+//   console.log(newSt);
+//   await dbHandler.updateDocument(id, newSt, " Customer Order");
+//   res.redirect("/shoppingCart/Purchase");
+// });
 
 
 router.get("/updateMyProfile", async (req, res) => {
