@@ -73,8 +73,10 @@ router.get('/editProduct',async (req,res)=>{
     const productToEdit = await getDocumentById(collectionName, id)
     res.render('editProduct',{product:productToEdit})
 })
-router.get('/adminHome',(req,res)=>{
-    res.render('adminHome')
+router.get('/adminHome', async(req,res)=>{
+    const collectionName = "Products"
+    const results = await getAllDocumentsFromCollection(collectionName)
+    res.render('adminHome',{products:results})
 })
 
 router.get('/addProduct', (req,res)=>{
@@ -93,7 +95,6 @@ router.get('/product',async (req,res)=>{
     const results = await getAllDocumentsFromCollection(collectionName)
     res.render('product',{products:results})
 })
-
 
 router.post('/addProduct',async (req,res)=>{
     const nameInput = req.body.txtName

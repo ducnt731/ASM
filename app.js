@@ -60,7 +60,7 @@ app.post("/login", async(req, res) => {
             if (role == "Customer") {
             res.redirect('/')
             } else {
-            res.redirect("/adminHome")
+            res.redirect("/admin/adminHome")
             }
         } else {
             res.render("login", { errorMsg: "Not auth!!" })

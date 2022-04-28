@@ -8,7 +8,7 @@
     <title>Edit Product</title>
 </head>
 <body>
-    <h1>ATN Toy Store</h1>
+    <h3>Edit book</h3>
     <div class = "bar">
         <a href="adminHome">Menu</a>
         <a href="addProduct">Add book</a>
@@ -16,7 +16,7 @@
         <a href="/">Logout</a> 
     </div>
     <h2 style="color: orange;">Edit Product</h2>
-    <form action="/editProduct" method="post">
+    <form action="/admin/editProduct" method="post">
         <input type="hidden" name="txtId" value="{{product._id}}">
         Name: <input type="text" name="txtName" id="txtName" value="{{product.name}}">
         <br>
