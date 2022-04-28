@@ -4,9 +4,46 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
-    
+    <center>
+        <table border="1" cellspacing="1">
+        <thead>
+            <h1>FPT Book</h1>
+            <div class = "bar">
+                <a href="adminHome">Menu</a>
+                <a href="addProduct">Add book</a>
+                <a href="product">View all books</a>
+                <a href="/admin/viewprofile">View profile</a>
+                <a href="/viewOrder">View order</a>
+                <a href="/">Logout</a> 
+            </div>
+            <tr></tr>
+                <th>Customer name</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            {{#each orders}}
+            <tr>
+                <td>
+                    <a href="/infoOrder?id={{_id}}">{{customer}}</a>
+                </td>
+                <td>
+                    {{time}}
+                </td>
+                <td>
+                    {{status}}
+                </td>
+                <td>
+                    <a onclick="return confirm('Are you sure you want to cancel this order?')" href="/cancelOrder?id={{_id}}">Cancel</a>
+                </td>
+            </tr>
+            {{/each}}
+        </thead>
+        </table>
+        </center>
 </body>
 </html>

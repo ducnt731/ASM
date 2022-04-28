@@ -233,20 +233,26 @@ app.post('/order', requiresLoginCustomer,async (req, res) => {
 })
 //Ham manage order 
 
-app.get('/viewOrder',(req, res) => {
+app.get('/viewOrder',async (req, res) => {
     const collectionName = "Order"
     const results = await getAllDocumentsFromCollection(collectionName)
-    res.render('product',{orders:results})
+    res.render('viewOrder',{orders:results})
 })
 
-app.get('/editOrder',(req, res) => {
-    const id = req.body.id
-    const status = req.body.status
-    const orderName = await get
+app.get('/cancelOrder', async (req, res)=>{
+    const id = req.body.txtId
+    const status = "Canceled"
+    const newValue = {status:status}
+    collectionName = "Order"
+    const myquery = { _id: ObjectId(id)}
+    await updateCollection(collectionName, myquery, newValue)
+    res.redirect('viewOrder')
 })
 
-app.post('/editOrder',(req, res)=>{
-
+app.get('/infoOrder', async (req, res) => {
+    const collectionName = "Order"
+    const orders = await getAllDocumentsFromCollection(collectionName)
+    res.render('infoOrder',{cart:orders.cart})
 })
 
 const PORT = process.env.PORT || 5000
