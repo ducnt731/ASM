@@ -17,7 +17,7 @@ router.use((req, res, next) => {
 })
 
 router.get("/feedback", async (req, res) => {
-    const result = await dbHandler.getAll("Feedback");
+    const result = await dbHandler.getAllFeedback("Feedback");
     const arr = [];
     result.forEach(e => {
         if (req.query.name === e.name) {
@@ -28,22 +28,24 @@ router.get("/feedback", async (req, res) => {
 })
 
 router.post("/feedback", (req, res) => {
+  const feedback = req.body.txtFeedback
     const obj = {
-        ...req.body, //copy all element of req.body
-        username: req.session.user.userName, 
-        time: new Date().toISOString(),
+      ...req.body, //copy all element of req.body
+      username: req.session.user.userName, 
+      time: new Date().toISOString(),
+      Feedback: feedback
     };
     dbHandler.insertObject("Feedback", obj)
     res.redirect("/");
 })
 
 router.get("/viewProfile", async (req, res) => {
-  const user = await dbHandler.getUser(req.session.user.name);
+  const user = await dbHandler.getUser(req.session.user.userName);
   res.render("profile", { user: user });
 });
 
 router.get("/updateProfile", async (req, res) => {
-  const user = await dbHandler.getUser(req.session.user.name);
+  const user = await dbHandler.getUser(eq.session.user.userName);
   res.render("UpDateProfile", { user: user });
 });
 
@@ -51,7 +53,7 @@ router.post("/updateProfile", async (req, res) => {
   const phone = req.body.txtPhone;
   const fullName = req.body.txtName;
   const email = req.body.txtEmail;
-  const user = await dbHandler.getUser(req.session.user.name);
+  const user = await dbHandler.getUser(eq.session.user.userName);
   const updateValue = {
     $set: {
       userName: user.userName,

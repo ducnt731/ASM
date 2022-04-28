@@ -36,6 +36,7 @@
                             Hi, {{userInfo.userName}}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Order status</a></li>
                             <li><a class="dropdown-item" href="/admin/viewprofile">View profile</a></li>
                             <li><a class="dropdown-item" href="/customer/updateMyProfile?user={{userInfo.userName}}">Edit profile</a></li>
                             <li><a class="dropdown-item" href="#">Purchase history</a></li>
@@ -67,7 +68,7 @@
                 <div class="row">
                     {{#each products}}
                     <div class="card" style="width: 15rem; align-items:center; margin: 10px; background-color:beige">
-                        <img src="{{picURL}}" class="card-img-top" alt="...">
+                        <img src="{{picURL}}" class="card-img-top" alt="..." style="width: width: 11rem; height: 14rem;;">
                         <div class="card-body">
                             <a href="/infoProducts?id={{_id}}" style="color: rgb(33, 35, 33); font-size: 1.5rem;">
                             <h5 class="card-title">{{name}}</h5>
@@ -81,6 +82,7 @@
                         </div>
                     </div>
                     {{/each}}
+                </div>
             </div>
         </div>
     </div>
