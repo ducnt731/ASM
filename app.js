@@ -220,6 +220,7 @@ app.get('/myCart',requiresLoginCustomer, async (req,res)=>{
 
 app.post('/order', requiresLoginCustomer,async (req, res) => {
     const cart = req.session["cart"]
+    const user = await dbHandler.getUser(req.session.user.userName)
     // var today = new Date();
     // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()+ " -- "+ today.getDay()+"/"+ today.getMonth()+"/"+today.getFullYear();
 
@@ -228,35 +229,14 @@ app.post('/order', requiresLoginCustomer,async (req, res) => {
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date+' '+time;
     console.log(dateTime)
-    const newO = {cart: cart, customer:customer.name, time: dateTime, status:"Waiting for the goods"}
+    const newO = {cart: cart, customer:user.userName, time: dateTime, status:"Waiting for the goods"}
     insertObject("Order",newO)
     req.session["cart"] = null;
     res.redirect('/')
 })
 //Ham manage order 
 
-app.get('/viewOrder', async(req, res) => {
-    const collectionName = "Order"
-    const results = await getAllDocumentsFromCollection(collectionName)
-    res.render('viewOrder',{orders:results})
-})
 
-app.get('/editOrder', async(req, res) => {
-    const id = req.body.id
-    const status = req.body.status
-    const orderName = await get
-})
-
-app.post('/viewOrder',(req, res)=>{
-
-})
-
-app.get('/cancelOrder', async(req,res)=>{
-    const name = req.session.user.name
-    const collectionName = "Order"
-    await deleteDocumentById(collectionName, name)
-    res.redirect('viewOrder')
-})
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT)

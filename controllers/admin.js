@@ -3,7 +3,7 @@ const async = require('hbs/lib/async')
 const bcrypt = require('bcrypt')
 const { ObjectId } = require('mongodb')
 const router = express.Router()
-const {getOder,insertObject,USER_TABLE_NAME, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById,getCustomer} = require('../databaseHandler')
+const {getOder,insertObject,getOrder,  getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById,getCustomer} = require('../databaseHandler')
 
 router.use(express.urlencoded({ extended: true }))
 router.use(express.static('public'))
@@ -156,21 +156,21 @@ router.post('/addProduct',async (req,res)=>{
 })
 
 //Ham manage Order
-router.get('/vieworders', async (req, res) => {
+router.get('/viewOrder', async (req, res) => {
     const collectionName = "Order"
-    const results = await getOder(collectionName)
-    res.render('vieworders', { orders: results })
+    const results = await getAllDocumentsFromCollection(collectionName)
+    res.render('viewOrder', { orders: results })
 })
 
-router.get('/deleteorder', async (req, res) => {
+router.get('/deleteOrder', async (req, res) => {
     const id = req.query.id
     //ham xoa user dua tren id
     const collectionName = "Order"
     await deleteDocumentById(collectionName, id)
-    res.redirect('vieworders')// return viewprofile page
+    res.redirect('viewOrder')// return viewprofile page
 })
 
-router.get('/editorder', async (req, res) => {
+router.get('/editOrder', async (req, res) => {
     const id = req.query.id
     //lay information old of ofer before edit
     const productToEdit = await getDocumentById("Order", id)
@@ -178,7 +178,7 @@ router.get('/editorder', async (req, res) => {
     res.render("editorder", { orders: productToEdit,id:id })
 })
 
-router.post('/editorder',async (req,res) =>{
+router.post('/editOrder',async (req,res) =>{
     const statusInput = req.body.txtstatus
     //ham update
     const id = req.body.txtId
@@ -193,7 +193,7 @@ router.post('/editorder',async (req,res) =>{
     
     const collectionName = "Order"
     await updateCollection(collectionName, myquery, newvalues)
-    res.redirect('vieworders')
+    res.redirect('viewOrder')
 })
 
 
