@@ -46,11 +46,16 @@
                     {{#each orders}}
                     <tr>
                         <td>{{_id}}</td>
-                        <td>{{cart}}</td>
+                        <td>
+                            {{#each cart}}
+                                <br>
+                                    {{order}}
+                                <br>
+                        </td>
                         <td>{{time}}</td>
                         <td>{{status}}</td>
-                        <td><a href="editorder?id={{_id}}">edit</a></td>
-                        <td><a onclick="return confirm('are you want to delete')" href="deleteorder?id={{_id}}">delete</a>
+                        <td><a href="editOrder?id={{_id}}">edit</a></td>
+                        <td><a onclick="return confirm('are you want to delete')" href="deleteOrder?id={{_id}}">delete</a>
                         </td>
                     </tr>
                     {{/each}}
