@@ -110,6 +110,12 @@ async function updateDocument(id, data, collectionName) {
     const dbo = await getDB()
     await dbo.collection(collectionName).updateOne(id, data)
 }
+
+async function getHistory(collectionName, name) {
+    const dbo = await getDB();
+    const customers = await dbo.collection(collectionName).find({customer:name}).toArray()
+    return customers
+}
 const USER_TABLE_NAME = "Users"
 module.exports = {
     getCustomer,
@@ -127,4 +133,4 @@ module.exports = {
     getAllFeedback,
     getDocumentById,
     deleteOrderByName,
-    updateDocument}
+    updateDocument,getHistory}
