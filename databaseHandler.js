@@ -25,6 +25,16 @@ async function checkUserLogin(nameI) {
     }
 }
 
+async function checkCategory(categoryI){
+    const dbo = await getDB();
+    const results = await dbo.collection("Category").findOne({categoryName: categoryI})
+    if (results) {
+        return 1;
+    } else {
+        return -1;
+    }
+}
+
 async function findOne(collectionName, findObject) {
     const dbo = await getDB();
     const result = await dbo.collection(collectionName).findOne(findObject);
@@ -118,6 +128,7 @@ async function getHistory(collectionName, name) {
 }
 const USER_TABLE_NAME = "Users"
 module.exports = {
+    checkCategory,
     getCustomer,
     insertObject,
     FindDocumentsByGmail, 
