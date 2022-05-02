@@ -24,6 +24,12 @@
             <a class="nav-link" href="/admin/addProduct">Add book</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="/admin/addCategory">Add category</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/admin/category">View category</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="/admin/viewprofile">View profile</a>
         </li>
         <li class="nav-item">
@@ -44,6 +50,7 @@
     <thead>
     <tr>
         <th scope="col">Name</th>
+        <th scope="col">Category</th> 
         <th scope="col">Price</th>
         <th scope="col">Quantity</th>
         <th scope="col">Picture</th>
@@ -57,6 +64,9 @@
             <tr>
                 <td>
                     {{name}}  
+                </td>
+                <td>
+                    {{category}}
                 </td>
                 <td>
                     {{price}}
