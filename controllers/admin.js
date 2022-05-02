@@ -64,23 +64,23 @@ router.post('/editProduct',async (req,res)=>{
     const newvalues = { $set: {name: nameInput, price: priceInput,qunatity:quantityInput,picURL:picURLInput,author: authorInput,description: descriptionInput} }
     const collectionName = "Products"
     await updateCollection(collectionName, myquery, newvalues)
-    res.redirect('product')
+    res.redirect('admin/product')
 })
 
 router.get('/editProduct',async (req,res)=>{
     const id = req.query.id
     const collectionName = "Products"
     const productToEdit = await getDocumentById(collectionName, id)
-    res.render('editProduct',{product:productToEdit})
+    res.render('admin/editProduct',{product:productToEdit})
 })
 router.get('/adminHome', async(req,res)=>{
     const collectionName = "Products"
     const results = await getAllDocumentsFromCollection(collectionName)
-    res.render('adminHome',{products:results})
+    res.render('admin/adminHome',{products:results})
 })
 
 router.get('/addProduct', (req,res)=>{
-    res.render('addProduct')
+    res.render('admin/addProduct')
 })
 
 router.get('/deleteProduct',async (req,res)=>{
@@ -93,7 +93,7 @@ router.get('/deleteProduct',async (req,res)=>{
 router.get('/product',async (req,res)=>{
     const collectionName = "Products"
     const results = await getAllDocumentsFromCollection(collectionName)
-    res.render('product',{products:results})
+    res.render('admin/product',{products:results})
 })
 
 router.post('/addProduct',async (req,res)=>{
@@ -150,7 +150,7 @@ router.post('/addProduct',async (req,res)=>{
         const newP = {name:nameInput,price:Number.parseFloat(priceInput),quantity:Number.parseInt(quantityInput),picURL:picURLInput,author:authorInput,description:descriptionInput}
         const collectionName = "Products"
         await insertObject(collectionName,newP)   
-        res.redirect('product')
+        res.redirect('admin/product')
     }
     
 })
@@ -159,7 +159,7 @@ router.post('/addProduct',async (req,res)=>{
 router.get('/viewOrder', async (req, res) => {
     const collectionName = "Order"
     const results = await getAllDocumentsFromCollection(collectionName)
-    res.render('viewOrder', { orders: results })
+    res.render('admin/viewOrder', { orders: results })
 })
 
 router.get('/deleteOrder', async (req, res) => {
@@ -167,7 +167,7 @@ router.get('/deleteOrder', async (req, res) => {
     //ham xoa user dua tren id
     const collectionName = "Order"
     await deleteDocumentById(collectionName, id)
-    res.redirect('viewOrder')// return viewprofile page
+    res.redirect('admin/viewOrder')// return viewprofile page
 })
 
 router.get('/editOrder', async (req, res) => {
@@ -175,7 +175,7 @@ router.get('/editOrder', async (req, res) => {
     //lay information old of ofer before edit
     const productToEdit = await getDocumentById("Order", id)
     //hien thi ra de sua
-    res.render("editorder", { orders: productToEdit,id:id })
+    res.render("admin/editorder", { orders: productToEdit,id:id })
 })
 
 router.post('/editOrder',async (req,res) =>{
@@ -194,6 +194,26 @@ router.post('/editOrder',async (req,res) =>{
     const collectionName = "Order"
     await updateCollection(collectionName, myquery, newvalues)
     res.redirect('viewOrder')
+})
+router.get('/orderDetail', async (req, res) => {
+    const idOrder = req.query.id
+    const dbo = await getDatabase();
+    const collectionName = 'Order'
+    const order = await dbo.collection(collectionName).findOne({ _id: ObjectId(idOrder) });
+
+    const books = order.books
+
+    var book
+    for (var i = 0; i < books.length; i++) {
+        book = await dbo.collection('Book').findOne({ _id: ObjectId(books[i].productId) });
+        books[i].productId = book;
+        books[i].status = order.status
+        books[i].price = books[i].quantity * books[i].price
+        books[i].date = order.date
+    }
+    console.log(books)
+    var totalBill =  order.totalBill
+    res.render("admin/orderDetail", { books: books, totalBill: totalBill })
 })
 
 
