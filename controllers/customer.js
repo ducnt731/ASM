@@ -43,7 +43,7 @@ router.post("/feedback", (req, res) => {
 
 router.get("/myprofile", async (req, res) => {
   const user = await dbHandler.getUser(req.session.user.userName);
-  res.render("myprofile", { user: user });
+  res.render("myprofile", { userInfo: user });
 });
 
 router.get("/updateProfile", async (req, res) => {
@@ -132,4 +132,24 @@ router.get('/deletemyorder', async (req, res) => {
   await deleteDocumentById(collectionName, id)
   res.redirect('purchasehistory')// return viewprofile page
 })
+
+
+router.post('/cancelmyorder',async (req,res) =>{
+  const statusInput = req.body.txtstatus
+  //ham update
+  const id = req.body.txtId
+  const myquery = { _id: ObjectId(id) }
+  const newvalues = {$set: {
+      status: statusInput,
+      }
+  }
+  console.log(statusInput)
+  console.log(newvalues)
+  console.log(id)
+  
+  const collectionName = "Order"
+  await updateCollection(collectionName, myquery, newvalues)
+  res.redirect('purchasehistory')
+})
+
 module.exports = router;

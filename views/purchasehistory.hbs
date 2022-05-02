@@ -72,7 +72,6 @@
                         <th>Cart</th>
                         <th>time</th>
                         <th>status</th>
-                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                     {{#each orders}}
@@ -81,9 +80,7 @@
                         <td>{{cart}}</td>
                         <td>{{time}}</td>
                         <td>{{status}}</td>
-                        <td><a href="#">Feedback</a></td>
-                        <td><a onclick="return confirm('are you want to delete')" href="deletemyorder?id={{_id}}">delete</a>
-                        </td>
+                        <td><a onclick="return confirm('are you want to delete')" href="deletemyorder?id={{_id}}">delete</a></td>
                     </tr>
                     {{/each}}
 
