@@ -17,26 +17,30 @@ router.use((req, res, next) => {
 })
 
 router.get("/feedback", async (req, res) => {
-    const result = await dbHandler.getAllFeedback("Feedback");
-    const arr = [];
-    result.forEach(e => {
-        if (req.query.name === e.name) {
-            arr.push(e)
-        }
-    })
-    res.render("feedback", { query: req.query.name, list: arr }); //lay id cua sach truyen vao form
-})
+  const result = await dbHandler.getAllFeedback("Feedback")
+  const results = await dbHandler.getAllDocumentsFromCollection("Products")
+  const name = req.query.name
+  const book = await dbHandler.getDocumentByName(name)
+  const pic = book.pic
+  const arr = [];
+  result.forEach(f => {
+    if (req.query.name === f.name) {
+      arr.push(f);
+    }
+  })
+  res.render("feedback", { list: arr, bookname: name, pic: pic, products: results }); //truyen gia tri cua book
+});
 
 router.post("/feedback", (req, res) => {
-  const feedback = req.body.txtFeedback
-    const obj = {
-      ...req.body, //copy all element of req.body
-      username: req.session.user.userName, 
-      time: new Date().toISOString(),
-      Feedback: feedback
-    };
-    dbHandler.insertObject("Feedback", obj)
-    res.redirect("/");
+  var today = new Date()
+  var time = today.getFullYear() + '-' + (today.getMonth()+1) + '-'+ today.getDate() + '-' + today.getHours() + ":" + today.getMinutes();
+  const bod = {
+    ...req.body, // sao chep cac phan tu cua req.body
+    username: req.session.user.userName,
+    time: time,
+  }
+  dbHandler.insertObject("Feedback", bod);
+  res.redirect("/")
 })
 
 router.get("/viewProfile", async (req, res) => {

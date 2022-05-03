@@ -3,10 +3,22 @@ const async = require('hbs/lib/async')
 const bcrypt = require('bcrypt')
 const { ObjectId } = require('mongodb')
 const router = express.Router()
-const {getOder,insertObject,getOrder,  getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById,getCustomer} = require('../databaseHandler')
+const {
+    getOder,
+    insertObject,
+    getOrder,
+    getAllDocumentsFromCollection, 
+    deleteDocumentById, 
+    updateCollection, 
+    getDocumentById,
+    getCustomer,
+    getAllFeedback,
+    updateDocument
+} = require('../databaseHandler')
 
 router.use(express.urlencoded({ extended: true }))
 router.use(express.static('public'))
+
 router.get('/viewprofile', async (req, res) => {
     const collectionName = "Users"
     const results = await getCustomer(collectionName)
@@ -76,7 +88,7 @@ router.get('/editProduct',async (req,res)=>{
 router.get('/adminHome', async(req,res)=>{
     const collectionName = "Products"
     const results = await getAllDocumentsFromCollection(collectionName)
-    res.render('adminHome',{products:results})
+    res.render('adminHome',{products:results, userInfo:req.session.user})
 })
 
 router.get('/addProduct', (req,res)=>{
@@ -144,7 +156,7 @@ router.post('/addProduct',async (req,res)=>{
         const oldValues = {name:nameInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
         res.render('addProduct',{errorDescription:errorMessage,oldValues:oldValues})
         console.log("g")
-        return;
+        return
     }
     else {
         const newP = {name:nameInput,price:Number.parseFloat(priceInput),quantity:Number.parseInt(quantityInput),picURL:picURLInput,author:authorInput,description:descriptionInput}
@@ -196,6 +208,64 @@ router.post('/editOrder',async (req,res) =>{
     res.redirect('viewOrder')
 })
 
+router.get("/feedbackManage", async (req, res) =>{
+    let result = await getAllFeedback("Feedback");
+    res.render('feedbackmanage', {feedback: result, user: req.session.user})
+});
 
+router.get("/feedbackManage/delete", async(req, res) =>{
+    await deleteDocumentById('Feedback', req.query.id);
+    res.redirect('/admin/feedbackManage');
+});
+
+router.get("/feedbackManage/:day", async (req, res, next) =>{
+    let result = await getAllFeedback("Feedback");
+    const today = new Date();
+    if (req.params.day == "today"){
+        result = result.filter((f) =>{
+            return new Date(f.time).toDateString() === today.toDateString(); //chuyển f.time về string dạng ngày 
+        });
+        res.render("feedbackManage", {
+            feedback: result,
+            user: req.session.user,
+        });
+    }
+    else if (req.params.day === "1weeks"){
+        const queryTimeDay = new Date(today.setDate(today.getDate() -7)); //-7 day 
+        result = result.filter((f) => new Date(f.time) > queryTimeDay);
+        res.render("feedbackManage", {
+            feedback: result,
+            user: req.session.user,
+        });
+    }
+    else if (req.params.day === "1months"){
+        const queryTimeDay = new Date(today.setMonth(today.getMonth() -1)); //-30 day 
+        result = result.filter((f) => new Date(f.time) > queryTimeDay);
+        res.render("feedbackManage", {
+            feedback: result,
+            user: req.session.user,
+        });
+    }
+    else{
+        next("route");
+    }
+});
+//l
+router.get("/feedbackManage/searchFeedback", async(req, res) =>{
+    const searchInput = req.query.bookName;
+    const result = await searchObjectbyName("Feedback", searchInput)
+    res.render("feedbackManage", {feedback: result})
+})
+
+router.post('/replyfeedback',async(req,res)=>{
+    const id = req.body.cmtid
+    const username = req.body.user
+    const adreply = req.body.adreply
+    const data = {$push: {reply:{  aduser:username, content:adreply}} }
+    console.log(data)
+    const update = await updateDocument(id,data,"Feedback")
+    console.log(update)
+    res.redirect('back')
+})
 
 module.exports = router;

@@ -76,7 +76,6 @@ app.get('/infoProducts', async (req,res)=>{
     const id = req.query.id
     const results = await FindDocumentsById("Products", id)
     res.render('infoProducts', {products : results})
-
 }) 
 
 app.get('/register', (req, res)=>{
@@ -118,24 +117,24 @@ app.post("/register", async (req, res) => {
 
 app.get('/', async(req,res)=>{
     customer = req.session.user
-    // const searchInputH = req.query.txtSearchHome
+    const searchInputH = req.query.txtSearchHome
     const collectionName = "Products"
     const results = await getAllDocumentsFromCollection(collectionName)
-    // const resultSearch = await FindAllDocumentsByName(searchInputH)
-    res.render('home', {products:results, userInfo:customer})
+    const resultSearch = await FindAllDocumentsByName(searchInputH)
+    // res.render('home', {products:results, userInfo:customer})
     //2.hien thu du lieu qua HBS
-    // if(searchInputH == null)
-    // {         
-    //     res.render('home', {products:results, userI:req.session.user})       
-    // }else{   
-    //     if(resultSearch.length != 0)
-    //     {                 
-    //         res.render('home', {products : resultSearch, userI:req.session.user})
-    //     }else {
-    //         const messageSH = " Khong tim thay"
-    //         res.render('home', {products: results, messSH : messageSH, userI:req.session.user})
-    //     }
-    // }
+    if(searchInputH == null)
+    {         
+        res.render('home', {products: results, userInfo:customer})       
+    }else{   
+        if(resultSearch.length != 0)
+        {                 
+            res.render('home', {products: resultSearch, userInfo:customer})
+        }else {
+            const messageSH = "Can not find your book"
+            res.render('home', {products: results, messSH : messageSH, userInfo:customer})
+        }
+    }
 })
 
 app.post('/buy',requiresLoginCustomer, async (req,res)=>{

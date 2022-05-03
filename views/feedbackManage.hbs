@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <title>
+        Material Dashboard 2 by Creative Tim
+    </title>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link id="pagestyle" href="/css/feedbackmanage.css" rel="stylesheet" />
+
+    <link href="/vendor/open-iconic-master/font/css/open-iconic-bootstrap.css" rel="stylesheet" />
+    
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        
+    </head>
+        <!-- Navbar -->
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+            </nav>
+            <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                <div class="input-group input-group-outline">
+                <form class="d-flex" action="/admin//feedbackmanage/searchFeedback" method="GET">
+                    <input class="form-control me-2" name="bookName" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                </div>
+            </div>
+            <ul class="navbar-nav  justify-content-end">
+                <li class="nav-item px-3 d-flex align-items-center" type="with: 50px;">
+                <a href=""><span class="oi oi-cog"></span></a>
+                </li>
+                <li class="nav-item px-3 d-flex align-items-center">
+                <a href=""><span class="oi oi-bell"></span></a>
+                </li>
+                <li class="nav-item px-3 d-flex align-items-center">
+                <button type="button" onclick="returnback()">
+                    <span class="oi oi-account-logout"></span>
+                </button>
+                </li>
+            </ul>
+            </div>
+        </div>
+        </nav>
+        <!-- End Navbar -->
+        <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Feedbacks table</h6>
+                </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                    <h6>Search by day:
+                        {{#if feedback}}
+                        <a style="margin: 0 2rem 0 2rem;" href="/admin/feedbackManage">All</a>
+                        <a style="margin: 0 2rem 0 2rem;" href="/admin/feedbackManage/today">Today</a>
+                        <a style="margin: 0 2rem 0 2rem;" href="/admin/feedbackManage/1weeks">1 weeks</a>
+                        <a style="margin: 0 2rem 0 2rem;" href="/admin/feedbackManage/1months">1 months</a>
+                        {{/if}} 
+                    </h4>
+                    
+                <div class="table-responsive p-0">
+                    <table class="table table-borderless">
+                    <tr>
+                <th>Username</th>
+                <th>Product</th>
+                <th>Feedback</th>
+                <th>Time</th>
+                <th>Action</th>
+            </tr>
+            {{#each feedback}}
+            <tr>
+                <td>{{username}}</td>
+                <td>{{name}}</td>
+                <td>{{feedback}}</td>
+                <td>{{time}}</td>
+
+                <td><a href="/admin/feedbackManage/delete?id={{_id}}">DELETE</a></td>
+                <td><button class="btn btn-primary" data-username="{{username}}" data-book="{{name}}" data-feedback="{{feedback}}" data-cmtid="{{_id}}" data-toggle="modal" data-target="#myModal">
+                        Reply
+                    </button></td>
+            </tr>
+            {{/each}}
+
+                    </table>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </main>
+    <!-- Modal --> 
+    
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header"><h4 class="modal-title" id="myModalLabel">Reply feedback</h4>
+        </div>
+        <div class="modal-body">
+            <style>
+            #profileForm input{
+                min-width: 100%;
+            }
+            </style>
+            <form id="profileForm" action="/admin/replyfeedback" method="POST">
+            <input  type="hidden" name="cmtid" value="">
+            Username: <input class="form-control" name="username" value="" disabled>
+            Book Name: <input class="form-control" name="book" value="" disabled>
+            Comment: 
+            <textarea class="form-control" name="feedback"  style="min-height: 100px;min-width:100%"></textarea>
+            Reply: <input type="hidden" name="userid" value="{{user.name}}">
+            <textarea class="form-control" name="adreply" placeholder="Reply this feedback..." style="min-height: 100px;" ></textarea>
+            
+    
+        
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Reply </button>
+            
+        </div>
+        </form>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script type="text/javascript">
+    $('#myModal').on('show.bs.modal', function (event) {
+    var cmtid = $(event.relatedTarget).data('cmtid');
+    var userName = $(event.relatedTarget).data('username');
+    var book = $(event.relatedTarget).data('book');
+    var feedback = $(event.relatedTarget).data('feedback')
+    $('#profileForm').find('[name="cmtid"]').val(cmtid);
+    $('#profileForm').find('[name="username"]').val(userName);
+    $('#profileForm').find('[name="book"]').val(book);
+    $('#profileForm').find('[name="feedback"]').val(feedback);
+    });
+
+    </script>
+    
+</body>
+</html>

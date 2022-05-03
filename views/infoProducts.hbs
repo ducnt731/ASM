@@ -30,7 +30,7 @@
         <div class="row">                 
             <div class="card" style="align-items: center; background-color: rgba(146, 207, 231, 0.288)">
                 <div class="img-infor">
-                    <img src="{{products.picURL}}" class="img-thumbnail" style="position: fixed; left: 300px; top: 90px" alt="..."> 
+                    <img src="{{products.picURL}}" class="card-img-bot" style="width: 11rem; height: 14rem;" alt="..."> 
                 </div>
                 <div>
                     <h2>Name:  {{products.name}}</h2>
@@ -44,7 +44,19 @@
                     <input type="hidden" name="txtId" value="{{products._id}}">
                     <button type="submit" class="btn btn-outline-success">Add to Cart</button>
                 </form>
-                {{!-- <a class="btn btn-primary" href="/customer/feedback" role="button">Link</a> --}}
+                <form action="/customer/feedback" method="post">
+                    <div class="formdanhgia">
+                    <input type="hidden" name="name" value="{{products.name}}">
+                        <div class="form-control">
+                            <textarea type="text" class="txtComment w-100" name="feedback" placeholder="Write a feedback here"></textarea>
+                        </div>
+                        <div class="btn nutguibl" >
+                            {{!-- <input type="submit" value="Submit"> --}}
+                            <button type="submit" class="btn btn-outline-success">Submit</button>
+                        </div>
+                        <a href="/customer/feedback?name={{products.name}}">View feedback</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

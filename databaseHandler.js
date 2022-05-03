@@ -93,11 +93,9 @@ async function FindDocumentsById(collectionName, id) {
     return results
 }
 
-async function getAllFeedback() {
-    const result = await getAll("Feedback");
-    result.forEach(
-        (e) => (e.timeString = new Date(e.time).toLocaleString("vi-VN"))
-    )
+async function getAllFeedback(collectionName) {
+    const dbo = await getDB();
+    const result = await dbo.collection(collectionName).find({}).sort({ time: -1 }).toArray();
     return result
 }
 
@@ -108,8 +106,24 @@ async function deleteOrderByName(collectionName, name) {
 
 async function updateDocument(id, data, collectionName) {
     const dbo = await getDB()
-    await dbo.collection(collectionName).updateOne(id, data)
+    await dbo.collection(collectionName).updateOne({ _id: ObjectId(id)}, data)
 }
+
+async function getDocumentByName(name) {
+    const dbo = await getDB();
+    const result = await dbo.collection("Products").findOne({ name: name })
+    return result
+}
+
+async function searchObjectbyName(collectionName, name) {
+    const dbo = await getDB();
+    const result = await dbo
+        .collection(collectionName)
+        .find({ name: { $regex: name} })
+        .toArray();
+    return result;
+}
+
 const USER_TABLE_NAME = "Users"
 module.exports = {
     getCustomer,
@@ -127,4 +141,7 @@ module.exports = {
     getAllFeedback,
     getDocumentById,
     deleteOrderByName,
-    updateDocument}
+    getDocumentByName,
+    updateDocument,
+    searchObjectbyName
+}

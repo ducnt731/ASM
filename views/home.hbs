@@ -52,15 +52,17 @@
                     </li>
                     {{/if}}
                     <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="txtSearchHome">
                         <button class="btn btn-outline-success" type="submit" style="color: rgb(5, 5, 5);">Search</button>
                     </form>
                 </ul>
             </div>
         </div>
     </nav>
-    <h1 style="color: rgba(93, 93, 254);">Welcome to our Book store!</h1>
+    <center>
     <span style="color: red;">{{messSH}}</span>
+    </center>
+    <h1 style="color: rgba(93, 93, 254);">Welcome to our Book store!</h1>
     <div></div>
     <div class="container">
         <div class="Product">
@@ -68,13 +70,13 @@
                 <div class="row">
                     {{#each products}}
                     <div class="card" style="width: 15rem; align-items:center; margin: 10px; background-color:beige">
-                        <img src="{{picURL}}" class="card-img-top" alt="..." style="width: width: 11rem; height: 14rem;;">
+                        <img src="{{picURL}}" class="card-img-top" alt="..." style="width: 11rem; height: 14rem;;">
                         <div class="card-body">
                             <a href="/infoProducts?id={{_id}}" style="color: rgb(33, 35, 33); font-size: 1.5rem;">
                             <h5 class="card-title">{{name}}</h5>
                             </a>
+                            <p class="card-text">Price:{{price}}$</p>
                             <p class="card-text">Author:{{author}}</p>
-                            <p class="card-text">Description:{{description}}</p>
                             <form action="/buy" method="post">
                                 <input type="hidden" name="txtId" value="{{_id}}">
                                 <button type="submit" class="btn btn-outline-success">Add to Cart</button>
