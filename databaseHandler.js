@@ -1,7 +1,17 @@
 const {MongoClient,ObjectId} = require('mongodb');
-
 const URL = "mongodb+srv://admin86:12345DD@cluster0.k6d3f.mongodb.net/GCH0902-ApplicationDev?retryWrites=true&w=majority"
 const DATABASE_NAME = "Book-store"
+
+// MongoClient.connect(url, function(err, db){
+//     if (err) throw err;
+//     var dbo = db.db(DATABASE_NAME);
+//     var mysort = { price: 1 };
+//     dbo.collection("Products").find().sort(mysort).toArray(function(err, result) {
+//         if (err) throw err
+//         console.log(result)
+//         db.close()
+//     })
+// })
 
 async function getDB() {
     const client = await MongoClient.connect(URL);

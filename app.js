@@ -123,6 +123,7 @@ app.get('/', async(req,res)=>{
     const resultSearch = await FindAllDocumentsByName(searchInputH)
     // res.render('home', {products:results, userInfo:customer})
     //2.hien thu du lieu qua HBS
+
     if(searchInputH == null)
     {         
         res.render('home', {products: results, userInfo:customer})       
