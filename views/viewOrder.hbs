@@ -14,7 +14,7 @@
 <body>
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
-            <div class = "bar">
+            <div class="bar">
                 <a class="navbar-brand" href="#">FPT Book store</a>
             </div>
             <ul class="nav navbar-nav">
@@ -36,34 +36,58 @@
             <table class="table table-dark table-striped">
                 <thread>
                     <tr>
-                        <th>id</th>
-                        <th>Cart</th>
-                        <th>time</th>
-                        <th>status</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                    <td>
+                        Product
+                    </td>
+                    <td>
+                        Name
+                    </td>
+                    <td>
+                        Price
+                    </td>
+                    <td>
+                        Quantity
+                    </td>
+                    <td>
+                        Date
+                    </td>
+                    <td>
+                        Total Price
+                    </td>
+                    <td>
+                        Status
+                    </td>
                     </tr>
-                    {{#each orders}}
+                    {{#each books}}
                     <tr>
-                        <td>{{_id}}</td>
-                        <td>
-                            {{#each cart}}
-                                <br>
-                                    {{order}}
-                                <br>
-                        </td>
-                        <td>{{time}}</td>
-                        <td>{{status}}</td>
-                        <td><a href="editOrder?id={{_id}}">edit</a></td>
-                        <td><a onclick="return confirm('are you want to delete')" href="deleteOrder?id={{_id}}">delete</a>
-                        </td>
+                        <th>
+                            <img src={{productId.imgURL}} style="width: 100px; height: 150px">
+                        </th>
+                        <th>
+                            {{productId.name}}
+                        </th>
+                        <th>
+                            {{productId.price}}
+                        </th>
+                        <th>
+                            {{quantity}}
+                        </th>
+
+                        <th>
+                            {{date}}
+                        </th>
+                        <th>
+                            {{price}}
+                        </th>
+                        <th>
+                            {{status}}
+                        </th>
                     </tr>
                     {{/each}}
-
                 </thread>
             </table>
-        </center> 
-        </ul>
+        </center>
+    </ul>
 </body>
 
 </html>

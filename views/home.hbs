@@ -36,10 +36,9 @@
                             Hi, {{userInfo.userName}}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/admin/editOrder">Order status</a></li>
-                            <li><a class="dropdown-item" href="/customer/viewprofile">View profile</a></li>
+                            <li><a class="dropdown-item" href="/customer/myprofile?user={{userInfo.userName}}">View profile</a></li>
                             <li><a class="dropdown-item" href="/customer/updateMyProfile?user={{userInfo.userName}}">Edit profile</a></li>
-                            <li><a class="dropdown-item" href="#">Purchase history</a></li>
+                            <li><a class="dropdown-item" href="/customer/purchasehistory">Purchase history</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/logout">Logout</a></li>
                         </ul>
@@ -84,7 +83,6 @@
                         </div>
                     </div>
                     {{/each}}
-                </div>
             </div>
         </div>
     </div>

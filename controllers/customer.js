@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const dbHandler = require('../databaseHandler');
+const {getHistory,getOder,insertObject,USER_TABLE_NAME, getAllDocumentsFromCollection, deleteDocumentById, updateCollection, getDocumentById,getCustomer} = require('../databaseHandler')
+
 
 // Middleware
 router.use((req, res, next) => {
@@ -43,9 +45,9 @@ router.post("/feedback", (req, res) => {
   res.redirect("/")
 })
 
-router.get("/viewProfile", async (req, res) => {
+router.get("/myprofile", async (req, res) => {
   const user = await dbHandler.getUser(req.session.user.userName);
-  res.render("viewprofile", { user: user });
+  res.render("myprofile", { userInfo: user });
 });
 
 router.get("/updateProfile", async (req, res) => {
@@ -119,5 +121,39 @@ router.post("/updateMyProfile", async (req, res) => {
   res.redirect("updateMyProfile");
 });
 
+router.get('/purchasehistory', async (req, res) => {
+  const collectionName = "Order"
+  const name = req.session.user.userName 
+  const results = await getHistory(collectionName, name)
+  res.render('purchasehistory', { orders: results })
+})
+
+
+router.get('/deletemyorder', async (req, res) => {
+  const id = req.query.id
+  //ham xoa user dua tren id
+  const collectionName = "Order"
+  await deleteDocumentById(collectionName, id)
+  res.redirect('purchasehistory')// return viewprofile page
+})
+
+
+router.post('/cancelmyorder',async (req,res) =>{
+  const statusInput = req.body.txtstatus
+  //ham update
+  const id = req.body.txtId
+  const myquery = { _id: ObjectId(id) }
+  const newvalues = {$set: {
+      status: statusInput,
+      }
+  }
+  console.log(statusInput)
+  console.log(newvalues)
+  console.log(id)
+  
+  const collectionName = "Order"
+  await updateCollection(collectionName, myquery, newvalues)
+  res.redirect('purchasehistory')
+})
 
 module.exports = router;
