@@ -13,11 +13,20 @@ const {
     getDocumentById,
     getCustomer,
     getAllFeedback,
-    updateDocument
+    updateDocument,
+    checkCategory
 } = require('../databaseHandler')
 
 router.use(express.urlencoded({ extended: true }))
 router.use(express.static('public'))
+
+function requiresLoginCustomer(req,res,next){
+    if(req.session.user){
+        return next()
+    }else{
+        res.redirect('/login')
+    }
+}
 
 router.get('/viewprofile', async (req, res) => {
     const collectionName = "Users"
@@ -71,14 +80,14 @@ router.get('/category', async (req, res) => {
     res.render('category',{category:results})
 })
 
-router.get('/addCategory', async (req, res) => {
+router.get('/addCategory',requiresLoginCustomer, async (req, res) => {
     res.render('addCategory')
 })
 
 router.post('/addCategory', async (req, res) => {
     const nameInput = req.body.txtName
     const descriptionInput = req.body.txtDescription
-    const check = await dbHandler.checkCategory(nameInput)
+    const check = await checkCategory(nameInput)
     if (nameInput.length == 0){
         const errorMessage = "The loai phai co ten!";
         const oldValues = {description:descriptionInput}
