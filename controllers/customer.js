@@ -6,35 +6,29 @@ const {getHistory,getOder,insertObject,USER_TABLE_NAME, getAllDocumentsFromColle
 
 
 // Middleware
-router.use((req, res, next) => {
-    if (req.session.user == null) {
-        res.redirect("/login");
-    } else {
-        if (req.session.user.role == 'Customer') {
-            next()
-        }
-        else {
-            res.redirect("/admin")
-        }
-    }
-})
+function requiresLoginCustomer(req,res,next){
+  if(req.session.user){
+      return next()
+  }else{
+      res.redirect('/login')
+  }
+}
 
-router.get("/feedback", async (req, res) => {
+router.get("/feedback",requiresLoginCustomer, async (req, res) => {
   const result = await dbHandler.getAllFeedback("Feedback")
-  const results = await dbHandler.getAllDocumentsFromCollection("Products")
   const name = req.query.name
-  const book = await dbHandler.getDocumentByName(name)
-  const pic = book.pic
-  const arr = [];
+  const results = await dbHandler.getAllDocumentsFromCollection(name)
+  const pic = results.pic
+  const arr = []
   result.forEach(f => {
     if (req.query.name === f.name) {
       arr.push(f);
     }
   })
-  res.render("feedback", { list: arr, bookname: name, pic: pic, products: results }); //truyen gia tri cua book
+  res.render("feedback", { list: arr, bookname: name, pic: pic}); //truyen gia tri cua book
 });
 
-router.post("/feedback", (req, res) => {
+router.post("/feedback",requiresLoginCustomer, (req, res) => {
   var today = new Date()
   var time = today.getFullYear() + '-' + (today.getMonth()+1) + '-'+ today.getDate() + '-' + today.getHours() + ":" + today.getMinutes();
   const bod = {
@@ -119,7 +113,7 @@ router.post("/updateMyProfile", async (req, res) => {
     }
   }
   await dbHandler.updateDocument(user, updateValue, "Users")
-  res.redirect("updateMyProfile");
+  res.redirect("updateMyProfile")
 });
 
 router.get('/purchasehistory', async (req, res) => {

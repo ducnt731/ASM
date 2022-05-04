@@ -131,8 +131,8 @@ async function updateDocument(id, data, collectionName) {
 
 async function getDocumentByName(name) {
     const dbo = await getDB();
-    const result = await dbo.collection("Products").findOne({ name: name })
-    return result
+    const results = await dbo.collection("Products").findOne({ name: name })
+    return results
 }
 
 async function searchObjectbyName(collectionName, name) {

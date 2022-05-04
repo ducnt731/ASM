@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <title>Products information</title>
 </head>
-<body style="background-color: rgb(152, 234, 237);">
+<body style="background-color:aliceblue;">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand">FPT Book</a>
@@ -32,12 +32,10 @@
         <div class="comment-wrapper">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    Feedback
+                    <h1>Feedback of {{bookname}}</h1>
                 </div>
                 <div class="panel-body">
-                    <textarea class="form-control" placeholder="write a Feedback..." rows="3"></textarea>
-                    <br>
-                    <button type="button" class="btn btn-info pull-right">Post</button>
+                    <img src="{{pic}}"alt="" style="width: 300px;">
                     <div class="clearfix"></div>
                     <hr>
                     <ul class="media-list">
@@ -61,7 +59,7 @@
                         <li class="clearfix">
                             <img src="https://bootdey.com/img/Content/user_3.jpg" class="avatar" alt="">
                             <div class="post-comments">
-                                <p class="meta"><a href="#">{{aduser}}</a> says : </p>
+                                <p class="meta"><a href="#">{{aduser}}</a>Admin says : </p>
                                 <p>
                                     {{content}}
                                 </p>
