@@ -48,6 +48,9 @@
                     <td>
                         Status
                     </td>
+                    <td>
+                        Options
+                    </td>
                     </tr>
                     {{#each orders}}
                     <tr>
@@ -66,7 +69,11 @@
                         <th>
                             {{date}}
                         </th>
-                        
+                        <th>
+                            <td><a href="editorder?id={{_id}}">edit</a></td>
+                            <td><a onclick="return confirm('are you want to delete')" href="deleteorder?id={{_id}}">delete</a>
+                        </td>
+                        </th>
                     </tr>
                     {{/each}}
                 </thread>

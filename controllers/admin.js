@@ -294,17 +294,17 @@ router.post('/editOrder',async (req,res) =>{
     res.redirect('viewOrder')
 })
 router.get('/orderDetail', async (req, res) => {
-    const idOrder = req.query.id
+    const id = req.query.id
     const dbo = await getDatabase();
     const collectionName = 'Order'
-    const order = await dbo.collection(collectionName).findOne({ _id: ObjectId(idOrder) });
+    const order = await dbo.collection(collectionName).findOne({ _id: ObjectId(id) });
 
     const carts = order.cart
     var cart 
 
     for (var i = 0; i < carts.length; i++) {
         cart[i].name = cart.name;
-        cart[i].status = order.status
+        cart[i].status = cart.status
         cart[i].price = books[i].quantity * books[i].price
         cart[i].date = order.date
     }

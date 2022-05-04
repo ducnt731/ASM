@@ -19,7 +19,7 @@
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/adminHome">Menu</a></li>
-                <li><a href="addProduct">Add book</a></li>
+                <li><a href="/admin/addProduct">Add book</a></li>
                 <li><a href="/admin/product">View all books</a></li>
                 <li><a href="/admin/viewprofile">View profile</a></li>
                 <li><a href="/admin/viewOrder">View order</a>
@@ -38,10 +38,10 @@
                 <thread>
                     <tr>
                     <td>
-                        Order Owner
+                        Ordered books
                     </td>
                     <td>
-                        Order Detail
+                        Ordered price
                     </td>
                     <td>
                         Time Ordered
@@ -50,13 +50,13 @@
                         Status
                     </td>
                     </tr>
-                    {{#each orders}}
+                    {{#each details}}
                     <tr>
                         <th>
                             {{customer}}
                         </th>
                         <th>
-                            <a href="/admin/orderDetail">{{_id}}</a>
+                            
                         </th>
                         <th>
                             {{time}}
