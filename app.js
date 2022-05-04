@@ -126,7 +126,7 @@ app.get('/', async(req,res)=>{
 
     if(searchInputH == null)
     {         
-        res.render('home', {products: results, userInfo:customer, cate:newC})       
+        res.render('home', {products: results, userInfo:customer})       
     }else{   
         if(resultSearch.length != 0)
         {                 
