@@ -148,7 +148,7 @@ app.post('/buy',requiresLoginCustomer, async (req,res)=>{
         let dict = {
             user: customer.name,
             // id: customer._id,
-            cart:[],
+            cart:[]
         }
             results.qty = 1;
             results.subtotal = results.price * results.qty;
