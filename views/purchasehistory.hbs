@@ -72,15 +72,19 @@
                         <th>Cart</th>
                         <th>time</th>
                         <th>status</th>
+                        <th>Cancel</th>
                         <th>Delete</th>
                     </tr>
                     {{#each orders}}
                     <tr>
-                        <td>{{_id}}</td>
+                        <td>{{_id}}</a></td>
                         <td>{{cart}}</td>
                         <td>{{time}}</td>
                         <td>{{status}}</td>
-                        <td><a onclick="return confirm('are you want to delete')" href="deletemyorder?id={{_id}}">delete</a></td>
+                        <input type="hidden" name="txtId" value="{{id}}">
+                        <td><a onclick="return confirm('are you want to cancel')" href="cancelmyorder?id={{_id}}">cancel</a>
+                        <td><a onclick="return confirm('are you want to delete')" href="deletemyorder?id={{_id}}">delete</a>
+                        </td>
                     </tr>
                     {{/each}}
 
