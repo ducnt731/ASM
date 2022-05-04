@@ -292,18 +292,16 @@ router.get('/orderDetail', async (req, res) => {
     const order = await dbo.collection(collectionName).findOne({ _id: ObjectId(idOrder) });
 
     const carts = order.cart
+    var cart 
 
-    var cart
-    for (var i = 0; i < books.length; i++) {
-        cart = await dbo.collection('Book').findOne({ _id: ObjectId(books[i].productId) });
-        books[i].productId = book;
-        books[i].status = order.status
-        books[i].price = books[i].quantity * books[i].price
-        books[i].date = order.date
+    for (var i = 0; i < carts.length; i++) {
+        cart[i].name = cart.name;
+        cart[i].status = order.status
+        cart[i].price = books[i].quantity * books[i].price
+        cart[i].date = order.date
     }
-    console.log(books)
-    var totalBill =  order.totalBill
-    res.render("orderDetail", { books: books, totalBill: totalBill })
+    
+    res.render("orderDetail", { carts: carts, totalBill: totalBill })
 })
 
 router.get("/feedbackManage", async (req, res) =>{
