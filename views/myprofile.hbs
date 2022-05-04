@@ -15,7 +15,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">FPT Book</a>
+            <a class="navbar-brand">FPT Book</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -26,43 +26,16 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
-                    {{#if userInfo}}
-                    <a style="font-size:smaller;" href="/myCart" class="btn btn-info btn-lg">Shopping cart </a>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Hi, {{userInfo.userName}}
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" <li><a class="dropdown-item" href="/admin/myprofile">View profile</a></li>
-                            <li><a class="dropdown-item"
-                                    href="/customer/updateMyProfile?user={{userInfo.userName}}">Edit profile</a></li>
-                            <li><a class="dropdown-item" href="#">Purchase history</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                        </ul>
-                    </li>
-                    {{else}}
-                    <form class="d-flex">
-                        <a class="nav-link" href="/login">Login </a>
-                        <a class="nav-link" href="/register">Register</a>
-                    </form>
-                    </li>
-                    {{/if}}
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit"
-                            style="color: rgb(5, 5, 5);">Search</button>
-                    </form>
+                </ul>
             </div>
         </div>
     </nav>
+    <center>
     <h1 style="color: rgba(93, 93, 254);">Welcome to our Book store!</h1>
     <span style="color: red;">{{messSH}}</span>
     <div></div>
-    <h1>View profile</h1>
+    </center>
+    <h3>View profile</h3>
     <form method="post" action="myprofile">
         <div class="container-sm border">
             <br>
@@ -72,7 +45,7 @@
             Gmail: <p>{{userInfo.Gmail}}</p>
         </div>
         <br>
-        <table class="table table-dark table-striped">
+        {{!-- <table class="table table-dark table-striped">
             <tr>
                 <th>fullName</th>
                 <th>Address</th>
@@ -85,7 +58,7 @@
                 <td>{{userInfo.Phone}}</td>
                 <td>{{userInfo.Gmail}}</td>
             </tr>
-        </table>
+        </table> --}}
     </form>
 </body>
 </html>
