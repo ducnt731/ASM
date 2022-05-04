@@ -89,19 +89,19 @@ router.post('/addCategory', async (req, res) => {
     if (nameInput.length == 0){
         const errorMessage = "The loai phai co ten!";
         const oldValues = {description:descriptionInput}
-        res.render('addProduct',{errorName:errorMessage})
+        res.render('addCategory',{errorName:errorMessage})
         console.log("1")
         return;
     } else if (descriptionInput.length == 0){
         const errorMessage = "The loai phai co mieu ta!";
         const oldValues = {name:nameInput}
-        res.render('addProduct',{errorDescription:errorMessage,oldValues:oldValues})
+        res.render('addCategory',{errorDescription:errorMessage,oldValues:oldValues})
         console.log("2")
         return;
-    } else if (check==-1) {
+    } else if (check==1) {
         const errorMessage = "The loai nay da co!"
         const oldValues = {description:descriptionInput}
-        res.render('addProduct',{errorDuplicate:errorMessage,oldValues:oldValues})
+        res.render('addCategory',{errorDuplicate:errorMessage,oldValues:oldValues})
         console.log("3")
         return;
     }
@@ -240,7 +240,7 @@ router.post('/addProduct',async (req,res)=>{
     } else if (check ==1){
         const errorMessage = "He thong khong co the loai nay!";
         const oldValues = {name:nameInput,category: categoryInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput,description:descriptionInput}
-        res.render('addProduct',{errorDescription:errorMessage,oldValues:oldValues})
+        res.render('addProduct',{errorCategory:errorMessage,oldValues:oldValues})
         console.log("h")
         return
     }
@@ -308,7 +308,7 @@ router.get('/orderDetail', async (req, res) => {
         cart[i].price = books[i].quantity * books[i].price
         cart[i].date = order.date
     }
-    
+
     res.render("orderDetail", { carts: carts, totalBill: totalBill })
 })
 
