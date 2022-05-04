@@ -144,6 +144,12 @@ async function searchObjectbyName(collectionName, name) {
     return result;
 }
 
+async function getHistory(collectionName, name) {
+    const dbo = await getDB();
+    const customers = await dbo.collection(collectionName).find({customer:name}).toArray()
+    return customers
+}
+
 const USER_TABLE_NAME = "Users"
 module.exports = {
     checkCategory,
@@ -164,5 +170,6 @@ module.exports = {
     deleteOrderByName,
     getDocumentByName,
     updateDocument,
-    searchObjectbyName
+    searchObjectbyName,
+    getHistory
 }

@@ -4,9 +4,8 @@ const bcrypt = require('bcrypt')
 const { ObjectId } = require('mongodb')
 const router = express.Router()
 const {
-    getOder,
     insertObject,
-    getOrder,
+    checkCategory,
     getAllDocumentsFromCollection, 
     deleteDocumentById, 
     updateCollection, 
@@ -100,7 +99,7 @@ router.post('/addCategory', async (req, res) => {
         res.render('addProduct',{errorDescription:errorMessage,oldValues:oldValues})
         console.log("2")
         return;
-    } else if (check==1) {
+    } else if (check==-1) {
         const errorMessage = "The loai nay da co!"
         const oldValues = {description:descriptionInput}
         res.render('addProduct',{errorDuplicate:errorMessage,oldValues:oldValues})
@@ -196,11 +195,11 @@ router.post('/addProduct',async (req,res)=>{
     const authorInput = req.body.txtAuthor
     const descriptionInput = req.body.txtDescription
 
-    const check = await dbHandler.checkCategory(categoryInput)
+    const check = await checkCategory(categoryInput)
     if (nameInput.length == 0){
         const errorMessage = "Sach phai co ten!";
         const oldValues = {category: categoryInput, price: priceInput, quantity: quantityInput, picURL: picURLInput, author: authorInput, description: descriptionInput}
-        res.render('addProduct',{errorName:errorMessage})
+        res.render('addProduct',{errorName:errorMessage,oldValues:oldValues})
         console.log("a")
         return;
     } else if (priceInput.length == 0){
@@ -238,6 +237,12 @@ router.post('/addProduct',async (req,res)=>{
         const oldValues = {name:nameInput,category: categoryInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput}
         res.render('addProduct',{errorDescription:errorMessage,oldValues:oldValues})
         console.log("g")
+        return
+    } else if (check ==1){
+        const errorMessage = "He thong khong co the loai nay!";
+        const oldValues = {name:nameInput,category: categoryInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput,description:descriptionInput}
+        res.render('addProduct',{errorDescription:errorMessage,oldValues:oldValues})
+        console.log("h")
         return
     }
     else {
@@ -296,18 +301,16 @@ router.get('/orderDetail', async (req, res) => {
     const order = await dbo.collection(collectionName).findOne({ _id: ObjectId(idOrder) });
 
     const carts = order.cart
+    var cart 
 
-    var cart
-    for (var i = 0; i < books.length; i++) {
-        cart = await dbo.collection('Book').findOne({ _id: ObjectId(books[i].productId) });
-        books[i].productId = book;
-        books[i].status = order.status
-        books[i].price = books[i].quantity * books[i].price
-        books[i].date = order.date
+    for (var i = 0; i < carts.length; i++) {
+        cart[i].name = cart.name;
+        cart[i].status = order.status
+        cart[i].price = books[i].quantity * books[i].price
+        cart[i].date = order.date
     }
-    console.log(books)
-    var totalBill =  order.totalBill
-    res.render("orderDetail", { books: books, totalBill: totalBill })
+    
+    res.render("orderDetail", { carts: carts, totalBill: totalBill })
 })
 
 router.get("/feedbackManage", async (req, res) =>{
