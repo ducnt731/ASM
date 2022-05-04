@@ -13,7 +13,6 @@ const {
     getCustomer,
     getAllFeedback,
     updateDocument,
-    checkCategory
 } = require('../databaseHandler')
 
 router.use(express.urlencoded({ extended: true }))
