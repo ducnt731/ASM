@@ -13,6 +13,7 @@ const {
     getCustomer,
     getAllFeedback,
     updateDocument,
+    searchObjectbyName
 } = require('../databaseHandler')
 
 router.use(express.urlencoded({ extended: true }))
