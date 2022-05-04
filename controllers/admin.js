@@ -13,7 +13,6 @@ const {
     getCustomer,
     getAllFeedback,
     updateDocument,
-    checkCategory
 } = require('../databaseHandler')
 
 router.use(express.urlencoded({ extended: true }))
@@ -238,7 +237,7 @@ router.post('/addProduct',async (req,res)=>{
         res.render('addProduct',{errorDescription:errorMessage,oldValues:oldValues})
         console.log("g")
         return
-    } else if (check ==-1){
+    } else if (check ==1){
         const errorMessage = "He thong khong co the loai nay!";
         const oldValues = {name:nameInput,category: categoryInput,price:priceInput,quantity:quantityInput,picURL:picURLInput,author:authorInput,description:descriptionInput}
         res.render('addProduct',{errorCategory:errorMessage,oldValues:oldValues})
